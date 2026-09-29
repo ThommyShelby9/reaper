@@ -129,6 +129,17 @@ class AnalysisTest {
     }
 
     @Test
+    fun `mix aléatoire, tous les titres une fois et des ordres différents`() {
+        val profiles = (1L..12L).map { profile(it, features(bpm = 90f + it * 3, key = (it % 12).toInt(), energy = it / 12f)) }
+        val orders = (1..20).map { seed -> orderForMix(profiles, kotlin.random.Random(seed)).map { it.track.id } }
+        orders.forEach { assertEquals((1L..12L).toSet(), it.toSet()); assertEquals(12, it.size) }
+        assertTrue(orders.map { it.first() }.toSet().size > 3)
+        assertTrue(orders.toSet().size > 10)
+        // Même graine, même mix.
+        assertEquals(orders[0], orderForMix(profiles, kotlin.random.Random(1)).map { it.track.id })
+    }
+
+    @Test
     fun `plan de transition`() {
         val plan = planTransition(features(bpm = 124f), features(bpm = 120f, offset = 250))
         assertEquals(124f / 120f, plan.incomingSpeed, 0.001f)

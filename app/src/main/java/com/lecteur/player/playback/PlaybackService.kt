@@ -45,6 +45,7 @@ class PlaybackService : MediaSessionService() {
     /** Tâches du service (paroles du widget) ; annulées à sa destruction. */
     private val scope = kotlinx.coroutines.MainScope()
     private var lyricsFollower: LyricsFollower? = null
+    private var shuffleKeeper: ShuffleKeeper? = null
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
@@ -64,6 +65,7 @@ class PlaybackService : MediaSessionService() {
         AudioEffects.attach(this, audioSessionId)
         history = HistoryRecorder(this, player)
         crossfader = Crossfader(this, player, audioSessionId, attributes)
+        shuffleKeeper = ShuffleKeeper(player)
         ContextCompat.registerReceiver(
             this,
             screenOffReceiver,
@@ -153,6 +155,8 @@ class PlaybackService : MediaSessionService() {
         ReaperWidget.lyricLine = null
         Companion.player = null
         ReaperWidget.refresh(this, null)
+        shuffleKeeper?.release()
+        shuffleKeeper = null
         crossfader?.release()
         crossfader = null
         history?.release()
