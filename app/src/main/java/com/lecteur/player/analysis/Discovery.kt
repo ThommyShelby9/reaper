@@ -41,21 +41,40 @@ fun transitionCost(from: TrackProfile, to: TrackProfile): Float {
 }
 
 /**
- * Ordre de passage d'un mix : on part du titre le plus calme, puis on enchaîne à chaque fois
- * sur le titre restant le plus compatible (tonalité voisine, tempo proche, énergie qui monte).
+ * Ordre de passage d'un mix : on enchaîne à chaque fois sur un titre restant compatible
+ * (tonalité voisine, tempo proche, énergie qui monte).
+ *
+ * Sans [random], ordre fixe : départ sur le titre le plus calme, puis toujours le plus compatible.
+ * Avec [random], chaque mix est différent : départ au hasard, puis un titre tiré parmi les
+ * [MIX_CHOICES] plus compatibles (le meilleur a plus de chances) — aléatoire, mais les transitions restent douces.
  */
-fun orderForMix(profiles: List<TrackProfile>): List<TrackProfile> {
-    if (profiles.size <= 2) return profiles
+fun orderForMix(profiles: List<TrackProfile>, random: Random? = null): List<TrackProfile> {
+    if (profiles.size <= 1) return profiles
     val remaining = profiles.toMutableList()
-    val start = remaining.minBy { it.features?.energy ?: 1f }
+    val start = if (random != null) remaining.random(random) else remaining.minBy { it.features?.energy ?: 1f }
     remaining.remove(start)
     val result = mutableListOf(start)
     while (remaining.isNotEmpty()) {
-        val next = remaining.minBy { transitionCost(result.last(), it) }
+        val ranked = remaining.sortedBy { transitionCost(result.last(), it) }
+        val next = if (random == null) ranked.first() else pickWeighted(ranked.take(MIX_CHOICES), random)
         remaining.remove(next)
         result += next
     }
     return result
+}
+
+/** Nombre de candidats parmi lesquels le mix aléatoire tire le titre suivant. */
+const val MIX_CHOICES = 3
+
+/** Tire un élément de [ranked] (du meilleur au moins bon) : poids 3, 2, 1… */
+private fun <T> pickWeighted(ranked: List<T>, random: Random): T {
+    val weights = ranked.indices.map { ranked.size - it }
+    var roll = random.nextInt(weights.sum())
+    ranked.forEachIndexed { index, item ->
+        roll -= weights[index]
+        if (roll < 0) return item
+    }
+    return ranked.last()
 }
 
 /**

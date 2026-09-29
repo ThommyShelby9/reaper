@@ -326,11 +326,12 @@ class LecteurViewModel(app: Application) : AndroidViewModel(app) {
         player.play(tracks, tracks.indices.random(), shuffle = true)
     }
 
-    /** Joue [tracks] en mode Mix : ordre harmonique et transitions calées sur le tempo. */
+    /** Joue [tracks] en mode Mix : ordre harmonique (différent à chaque fois) et transitions calées sur le tempo. */
     fun playMix(tracks: List<Track>) {
         if (tracks.isEmpty()) return
         val known = profiles.value
-        val ordered = orderForMix(tracks.map { known[it.id] ?: TrackProfile(it, null, null) })
+        // Ordre harmonieux mais différent à chaque mix : départ au hasard, suivant tiré parmi les plus compatibles.
+        val ordered = orderForMix(tracks.map { known[it.id] ?: TrackProfile(it, null, null) }, kotlin.random.Random.Default)
         player.play(ordered.map { it.track }, 0, mix = true)
     }
 
