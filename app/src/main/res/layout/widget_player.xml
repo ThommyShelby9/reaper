@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Widget d'écran d'accueil, dessiné comme le lecteur : un boîtier, un écran sombre avec la pochette
+    et le morceau, puis trois touches en relief dont la lecture en orange.
+    Les fonds et les teintes changent selon le thème (voir ReaperWidget).
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_body_light"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:id="@+id/widget_display"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/widget_display_light"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/widget_cover"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                android:src="@drawable/widget_cover_empty" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/widget_live"
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/widget_live_dot"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/widget_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:singleLine="true"
+                        android:text="Reaper"
+                        android:textColor="#FF8E8E93"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/widget_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:singleLine="true"
+                    android:text="Rien en lecture"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/widget_artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="monospace"
+                    android:singleLine="true"
+                    android:text="Touchez pour ouvrir Reaper"
+                    android:textColor="#FF8E8E93"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Ligne de paroles en cours, au rythme du morceau (paroles synchronisées seulement). -->
+        <TextView
+            android:id="@+id/widget_lyric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:fontFamily="monospace"
+            android:maxLines="2"
+            android:textColor="#FFFF5A1F"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/widget_previous"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/widget_key_light"
+            android:contentDescription="Morceau précédent">
+
+            <ImageView
+                android:id="@+id/widget_previous_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_widget_previous"
+                android:tint="#FF151515"
+                tools:ignore="UseAppTint" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/widget_play"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1.4"
+            android:background="@drawable/widget_key_accent"
+            android:contentDescription="Lecture">
+
+            <ImageView
+                android:id="@+id/widget_play_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_widget_play"
+                android:tint="#FF151515"
+                tools:ignore="UseAppTint" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/widget_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/widget_key_light"
+            android:contentDescription="Morceau suivant">
+
+            <ImageView
+                android:id="@+id/widget_next_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_widget_next"
+                android:tint="#FF151515"
+                tools:ignore="UseAppTint" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

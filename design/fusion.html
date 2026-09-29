@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecteur — Console et Tableau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Doto:wght@400;700;900&family=Instrument+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--page:#E8E7EB;--page-ink:#1C1B22;--page-muted:#55535F;--page-line:#CFCDD6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.5}
+a{color:#2F4FD0}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #2F6BFF;outline-offset:3px}
+.intro{max-width:1320px;margin:0 auto;padding:56px 32px 24px}
+.intro h1{font-size:44px;line-height:1.05;margin:0 0 14px;font-weight:700;letter-spacing:-.02em}
+.intro p{max-width:66ch;margin:0 0 10px;color:var(--page-muted);font-size:17px}
+.dir{max-width:1320px;margin:0 auto;padding:48px 32px;border-top:1px solid var(--page-line);display:grid;grid-template-columns:280px 1fr;gap:40px}
+.meta .letter{font-size:15px;font-weight:600;color:var(--page-muted)}
+.meta h2{font-size:34px;line-height:1.05;margin:4px 0 12px;letter-spacing:-.015em}
+.meta p{margin:0 0 14px;color:var(--page-muted);max-width:40ch}
+.meta ul{margin:0 0 16px;padding-left:18px;max-width:40ch}
+.meta li{margin-bottom:6px}
+.sw{display:flex;gap:6px;margin-bottom:10px}
+.sw span{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
+.fonts{font-size:14px;color:var(--page-muted)}
+.phones{display:flex;gap:36px;overflow-x:auto;padding:4px 4px 16px}
+figure{margin:0;flex:none}
+figcaption{text-align:center;margin-top:12px;font-weight:600;font-size:15px}
+.phone{width:300px;height:640px;border-radius:46px;padding:10px;background:#101014;box-shadow:0 30px 60px -30px rgba(20,18,40,.55),inset 0 0 0 2px #2a2a31}
+.screen{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.next{max-width:1320px;margin:0 auto;padding:40px 32px 80px;border-top:1px solid var(--page-line)}
+.next h2{margin:0 0 10px;font-size:24px}
+.next ul{margin:0;padding-left:18px;max-width:70ch}
+.next li{margin-bottom:6px}
+@media (max-width:900px){.dir{grid-template-columns:1fr;gap:24px;padding:36px 16px}.intro,.next{padding-left:16px;padding-right:16px}.intro h1{font-size:34px}}
+
+.doto{font-family:"Doto",monospace;font-weight:900}
+.dotc{display:block}
+.dw{display:block;width:100%}
+.ticker{overflow:hidden;white-space:nowrap}
+.ticker span{display:inline-block;padding-left:100%;animation:tick 14s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.live{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+
+/* ============ Fusion 1 — Appareil (clair) ============ */
+.f1 .screen{background:#E4E3DE;color:#151515;font-family:"Archivo",sans-serif}
+.f1 .live{background:#FF5A1F}
+.f1 .hdr{display:flex;justify-content:space-between;align-items:center;padding:20px 18px 0;font-size:12px;color:#55544f}
+.f1 .hdr span{display:flex;align-items:center;gap:6px}
+.f1 .disp{margin:12px 14px 0;background:#0C0C0C;border-radius:12px;padding:12px;box-shadow:inset 0 2px 8px #000,0 1px 0 #fff;color:#fff}
+.f1 .disp .row{display:flex;gap:12px;align-items:flex-start}
+.f1 .disp canvas.dotc{width:104px;height:104px;flex:none}
+.f1 .info{flex:1;min-width:0}
+.f1 .info h3{margin:0;font-size:19px;line-height:1.05}
+.f1 .info p{margin:6px 0 0;font-size:11px;color:#8E8E93}
+.f1 .info .t{font-size:30px;color:#FF5A1F;margin-top:8px;line-height:1}
+.f1 .info .t small{font-size:14px;color:#8E8E93}
+.f1 .disp .dw{height:44px;margin-top:12px}
+.f1 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px 14px 0}
+.f1 .tile{background:#F2F1ED;border-radius:8px;padding:7px 10px;box-shadow:inset 0 0 0 1px #cfcec8}
+.f1 .tile b{display:block;font-size:22px;line-height:1.1}
+.f1 .tile span{font-size:11px;color:#55544f}
+.f1 .knobs{display:flex;justify-content:space-around;padding:14px 14px 0}
+.f1 .kn{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#55544f}
+.f1 .dial{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fafaf8,#cfcec8);box-shadow:0 3px 6px rgba(0,0,0,.25),inset 0 0 0 1px #bdbcb5;position:relative}
+.f1 .dial::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:13px;margin-left:-1.5px;border-radius:2px;background:#151515;transform-origin:50% 20px;transform:rotate(var(--r,0deg))}
+.f1 .dial.x::after{background:#FF5A1F}
+.f1 .keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:18px 14px 0}
+.f1 .key{height:56px;border-radius:10px;background:#F7F6F2;display:grid;place-items:center;box-shadow:0 4px 0 #b3b2ab,0 5px 8px rgba(0,0,0,.18)}
+.f1 .key.or{background:#FF5A1F;box-shadow:0 4px 0 #b53c10,0 5px 8px rgba(0,0,0,.18)}
+.f1 .key.dk{background:#262626;color:#E4E3DE;box-shadow:0 4px 0 #000,0 5px 8px rgba(0,0,0,.2)}
+.f1 .filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:14px 14px 0}
+.f1 .filters button{font-size:12px;font-weight:600;padding:9px 0;border-radius:7px;background:#F7F6F2;box-shadow:0 3px 0 #b3b2ab}
+.f1 .filters button[aria-pressed=true]{background:#151515;color:#F7F6F2;box-shadow:0 3px 0 #000}
+.f1 .tbl{margin:14px 14px 0;font-size:12px;flex:1;overflow:hidden}
+.f1 .tr{display:grid;grid-template-columns:12px 1fr 34px 40px;gap:6px;padding:8px 4px;border-bottom:1px solid #cfcec8;align-items:center}
+.f1 .tr.h{font-size:11px;color:#55544f;border-bottom:1px solid #151515}
+.f1 .tr b{display:block;font-weight:600;font-stretch:88%;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f1 .tr small{color:#55544f;font-size:11px}
+.f1 .tr .n{font-family:"Doto";font-weight:900;font-size:14px;text-align:right}
+.f1 .strip{margin:10px;border-radius:12px;background:#0C0C0C;color:#fff;display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:13px;box-shadow:inset 0 2px 6px #000}
+.f1 .strip .ticker{flex:1}
+.f1 .strip .key{width:40px;height:40px}
+.f1 .jd .lv{display:flex;justify-content:space-between;font-size:11px;color:#8E8E93;font-family:"Space Mono",monospace}
+.f1 .jd .lv span{display:flex;gap:6px;align-items:center;color:#fff}
+.f1 .jd .code{font-size:60px;line-height:1;margin-top:6px;letter-spacing:.04em}
+.f1 .jd .ticker{font-size:11px;color:#8E8E93;margin-top:8px;font-family:"Space Mono",monospace}
+.f1 .ppl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:12px 14px 0}
+.f1 .pp{background:#F2F1ED;border-radius:8px;box-shadow:inset 0 0 0 1px #cfcec8;padding:6px;text-align:center;font-size:12px;font-weight:600}
+.f1 .pp canvas{width:100%;height:16px;display:block;margin-bottom:4px}
+.f1 .pp small{display:block;font-weight:400;font-size:10px;color:#55544f}
+.f1 .dep{margin:12px 14px 0;font-size:12px;flex:1}
+.f1 .dep .tr{grid-template-columns:44px 1fr 44px}
+.f1 .dep .t{font-family:"Doto";font-weight:900;font-size:16px}
+.f1 .vk{justify-self:end;display:flex;align-items:center;gap:2px;padding:5px 7px;border-radius:6px;background:#F7F6F2;box-shadow:0 2px 0 #b3b2ab;font-weight:700;font-size:12px}
+.f1 .vk .ic{width:13px;height:13px;stroke-width:2.4}
+.f1 .add{margin:0 14px 16px;height:48px;border-radius:10px;background:#151515;color:#F7F6F2;font-weight:600;font-size:14px;box-shadow:0 4px 0 #000}
+
+/* ============ Fusion 2 — Nuit (sombre) ============ */
+.f2 .screen{background:#000;color:#fff;font-family:"Space Mono",monospace}
+.f2 .live{background:#D71921}
+.f2 .top{display:flex;justify-content:space-between;align-items:center;padding:22px 18px 0;font-size:11px;color:#8E8E93}
+.f2 .top span{display:flex;gap:6px;align-items:center}
+.f2 canvas.dotc{margin:14px auto 0;width:200px;height:200px}
+.f2 .ttl{padding:16px 18px 0}
+.f2 .ttl h3{margin:0;font-size:29px;line-height:1}
+.f2 .ttl p{margin:6px 0 0;font-size:12px;color:#8E8E93}
+.f2 .wv{padding:14px 18px 0}
+.f2 .wv .dw{height:40px}
+.f2 .tm{display:flex;justify-content:space-between;font-size:15px;margin-top:4px}
+.f2 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px 14px 0}
+.f2 .tile{border:1px solid #2C2C2E;border-radius:8px;padding:6px 10px}
+.f2 .tile b{display:block;font-size:20px;line-height:1.1}
+.f2 .tile span{font-size:10px;color:#8E8E93}
+.f2 .keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:16px 14px 0}
+.f2 .key{height:54px;border-radius:10px;background:#1C1C1E;display:grid;place-items:center;box-shadow:0 4px 0 #0a0a0a,inset 0 1px 0 #3A3A3C;color:#fff}
+.f2 .key.w{background:#fff;color:#000;box-shadow:0 4px 0 #8E8E93}
+.f2 .head{padding:24px 18px 0}
+.f2 .head h3{margin:0;font-size:30px;line-height:1}
+.f2 .filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:14px 14px 0}
+.f2 .filters button{font-size:11px;padding:9px 0;border-radius:7px;background:#1C1C1E;box-shadow:0 3px 0 #0a0a0a,inset 0 1px 0 #3A3A3C;color:#8E8E93}
+.f2 .filters button[aria-pressed=true]{background:#fff;color:#000;box-shadow:0 3px 0 #8E8E93}
+.f2 .tbl{padding:12px 18px 0;font-size:12px;flex:1;overflow:hidden}
+.f2 .tr{display:grid;grid-template-columns:12px 1fr 30px 40px;gap:6px;padding:8px 0;border-bottom:1px dotted #3A3A3C;align-items:center}
+.f2 .tr.h{color:#8E8E93;font-size:10px;border-bottom:1px solid #3A3A3C}
+.f2 .tr small{display:block;color:#8E8E93;font-size:11px}
+.f2 .tr .n{font-family:"Doto";font-weight:900;font-size:14px;text-align:right}
+.f2 .mini{margin:0 14px 14px;border-top:1px dotted #8E8E93;padding:12px 4px 0;display:flex;align-items:center;gap:10px;font-size:12px}
+.f2 .mini .ticker{flex:1}
+.f2 .code{padding:4px 18px 0}
+.f2 .code small{font-size:11px;color:#8E8E93}
+.f2 .code div{font-size:66px;line-height:1;letter-spacing:.04em}
+.f2 .tk{margin-top:12px;background:#1C1C1E;font-size:12px;padding:8px 0}
+.f2 .ch{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:12px 14px 0}
+.f2 .chan{border:1px solid #2C2C2E;border-radius:8px;padding:6px;text-align:center;font-size:12px}
+.f2 .chan canvas{width:100%;height:40px;display:block;margin-bottom:4px}
+.f2 .chan small{display:block;font-size:10px;color:#8E8E93}
+.f2 .dep{padding:10px 18px 0;font-size:12px;flex:1}
+.f2 .dep .tr{grid-template-columns:44px 1fr 40px}
+.f2 .dep .t{font-family:"Doto";font-weight:900;font-size:16px}
+.f2 .vk{justify-self:end;padding:4px 8px;border-radius:6px;background:#1C1C1E;box-shadow:0 2px 0 #0a0a0a,inset 0 1px 0 #3A3A3C;font-size:12px}
+.f2 .add{margin:0 14px 16px;height:48px;border-radius:999px;border:1.5px solid #fff;font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14"/><path d="M19 5L9 12l10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14"/><path d="M5 5l10 7-10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h13M17 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H4M7 21l-3-3 3-3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+</svg>
+
+<header class="intro">
+  <h1>Console et Tableau, deux fusions</h1>
+  <p>Les deux fusions gardent les mêmes ingrédients. De Console, elles reprennent les touches en relief, les potentiomètres, le BPM et la tonalité, et les tranches par participant en jam. De Tableau, elles reprennent l'écran à points, la pochette en matrice et la file de jam affichée comme des horaires de départ.</p>
+  <p>La première est un appareil clair avec un écran noir encastré. La seconde est la version nuit, tout en noir. Elles peuvent aussi devenir les thèmes clair et sombre de la même app. <a href="propositions.html">Directions A à D</a>, <a href="propositions-2.html">directions E à J</a>.</p>
+</header>
+
+<section class="dir f1" aria-labelledby="t1">
+  <div class="meta">
+    <div class="letter">Fusion 1</div>
+    <h2 id="t1">Appareil</h2>
+    <p>Le corps de Console, avec un écran à points noir encastré comme sur une vraie machine. L'orange sert à la fois d'accent et de signal « en direct ».</p>
+    <ul>
+      <li>La pochette, le titre et le temps s'affichent dans l'écran en points</li>
+      <li>La forme d'onde du morceau est dessinée en colonnes de points</li>
+      <li>En jam, le code apparaît sur l'écran, avec des tranches par participant et une file en horaires de départ</li>
+    </ul>
+    <div class="sw"><span style="background:#E4E3DE"></span><span style="background:#0C0C0C"></span><span style="background:#FF5A1F"></span><span style="background:#F7F6F2"></span></div>
+    <div class="fonts">Archivo, Doto</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span><i class="live"></i>Plage 3 sur 9</span><span>FLAC 24/96</span></div>
+      <div class="disp">
+        <div class="row">
+          <canvas class="dotc" width="416" height="416" data-cover="lune" data-hi="#fff" data-lo="#6b6b6f" role="img" aria-label="Pochette en points"></canvas>
+          <div class="info"><h3 class="doto">Minuit sur le quai</h3><p>Lune Basse</p><div class="t doto">2:08 <small>/5:37</small></div></div>
+        </div>
+        <canvas class="dw" width="520" height="88" data-at=".38" data-on="#FF5A1F" data-head="#fff" data-off="#3A3A3C" data-seed="5" role="img" aria-label="Forme d'onde, 38 % joué"></canvas>
+      </div>
+      <div class="tiles">
+        <div class="tile"><b class="doto">124</b><span>BPM</span></div>
+        <div class="tile"><b class="doto">8A</b><span>Tonalité</span></div>
+        <div class="tile"><b class="doto">-8.2</b><span>dB normalisé</span></div>
+      </div>
+      <div class="knobs">
+        <div class="kn"><div class="dial x" style="--r:60deg"></div>Fondu 6 s</div>
+        <div class="kn"><div class="dial" style="--r:25deg"></div>Grave +2</div>
+        <div class="kn"><div class="dial" style="--r:-30deg"></div>Volume</div>
+      </div>
+      <div class="keys">
+        <button class="key" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="key or" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button class="key" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+        <button class="key dk" aria-label="Répéter"><svg class="ic"><use href="#i-repeat"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span>Bibliothèque</span><span>2 480 titres</span></div>
+      <div class="filters"><button aria-pressed="true">Titres</button><button aria-pressed="false">Albums</button><button aria-pressed="false">Artistes</button><button aria-pressed="false">Dossiers</button></div>
+      <div class="tbl">
+        <div class="tr h"><span></span><span>Titre, artiste</span><span style="text-align:right">BPM</span><span style="text-align:right">Durée</span></div>
+        <div class="tr"><span></span><div><b>Après la fête</b><small>Vesper Club</small></div><span class="n">125</span><span class="n">5:01</span></div>
+        <div class="tr"><span></span><div><b>Côte Ouest</b><small>Maison Soleil</small></div><span class="n">121</span><span class="n">6:15</span></div>
+        <div class="tr"><i class="live"></i><div><b>Minuit sur le quai</b><small>Lune Basse</small></div><span class="n">124</span><span class="n">5:37</span></div>
+        <div class="tr"><span></span><div><b>Néons</b><small>Kaelo</small></div><span class="n">126</span><span class="n">3:48</span></div>
+        <div class="tr"><span></span><div><b>Pluie d'été</b><small>Odette Moreau</small></div><span class="n">123</span><span class="n">3:29</span></div>
+        <div class="tr"><span></span><div><b>Radio Nacre</b><small>Les Satellites</small></div><span class="n">122</span><span class="n">4:02</span></div>
+        <div class="tr"><span></span><div><b>Sans toi</b><small>Lune Basse</small></div><span class="n">118</span><span class="n">4:44</span></div>
+      </div>
+      <div class="strip"><i class="live"></i><div class="ticker doto"><span>Minuit sur le quai, Lune Basse, ensuite Radio Nacre</span></div><button class="key or" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span>Jam</span><span>hôte : toi</span></div>
+      <div class="disp jd">
+        <div class="lv"><span><i class="live"></i>En direct</span>4 à l'écoute</div>
+        <div class="code doto">K7Q2</div>
+        <div class="ticker"><span>Inès a ajouté Radio Nacre, Malik a voté pour Néons, Chloé a rejoint la jam</span></div>
+      </div>
+      <div class="ppl">
+        <div class="pp"><canvas class="lvl" width="80" height="20"></canvas>Toi<small>réf.</small></div>
+        <div class="pp"><canvas class="lvl" width="80" height="20"></canvas>Inès<small>8 ms</small></div>
+        <div class="pp"><canvas class="lvl" width="80" height="20"></canvas>Malik<small>12 ms</small></div>
+        <div class="pp"><canvas class="lvl" width="80" height="20"></canvas>Chloé<small>5 ms</small></div>
+      </div>
+      <div class="dep">
+        <div class="tr h"><span>Prévu</span><span>Titre, proposé par</span><span style="text-align:right">Votes</span></div>
+        <div class="tr"><span class="t">22:41</span><div><b>Radio Nacre</b><small>Inès</small></div><button class="vk" aria-label="Voter, 3 votes"><svg class="ic"><use href="#i-up"/></svg>3</button></div>
+        <div class="tr"><span class="t">22:45</span><div><b>Néons</b><small>Malik</small></div><button class="vk" aria-label="Voter, 2 votes"><svg class="ic"><use href="#i-up"/></svg>2</button></div>
+        <div class="tr"><span class="t">22:49</span><div><b>Côte Ouest</b><small>Chloé</small></div><button class="vk" aria-label="Voter, 1 vote"><svg class="ic"><use href="#i-up"/></svg>1</button></div>
+      </div>
+      <button class="add">Proposer un titre</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<section class="dir f2" aria-labelledby="t2">
+  <div class="meta">
+    <div class="letter">Fusion 2</div>
+    <h2 id="t2">Nuit</h2>
+    <p>Le noir intégral de Tableau, avec les touches et les données de Console en relief sombre. Le rouge ne sert qu'au signal « en direct » et à la position de lecture.</p>
+    <ul>
+      <li>Grande pochette en points, titre en matrice</li>
+      <li>La forme d'onde en points sert de barre de progression</li>
+      <li>En jam, chaque participant a sa tranche avec un vumètre à points</li>
+    </ul>
+    <div class="sw"><span style="background:#000"></span><span style="background:#1C1C1E"></span><span style="background:#fff"></span><span style="background:#D71921"></span></div>
+    <div class="fonts">Doto, Space Mono</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span><i class="live"></i>En lecture</span><span>FLAC 24/96</span></div>
+      <canvas class="dotc" width="400" height="400" data-cover="lune" data-hi="#fff" data-lo="#6b6b6f" role="img" aria-label="Pochette en points"></canvas>
+      <div class="ttl"><h3 class="doto">Minuit sur le quai</h3><p>Lune Basse, Quai Nord</p></div>
+      <div class="wv"><canvas class="dw" width="496" height="80" data-at=".38" data-on="#fff" data-head="#D71921" data-off="#3A3A3C" data-seed="5" role="img" aria-label="Forme d'onde, 38 % joué"></canvas><div class="tm doto"><span>2:08</span><span>5:37</span></div></div>
+      <div class="tiles">
+        <div class="tile"><b class="doto">124</b><span>BPM</span></div>
+        <div class="tile"><b class="doto">8A</b><span>Tonalité</span></div>
+        <div class="tile"><b class="doto">6 s</b><span>Fondu</span></div>
+      </div>
+      <div class="keys">
+        <button class="key" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="key w" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button class="key" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+        <button class="key" aria-label="Répéter"><svg class="ic"><use href="#i-repeat"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3 class="doto">Bibliothèque</h3></div>
+      <div class="filters"><button aria-pressed="true">Titres</button><button aria-pressed="false">Albums</button><button aria-pressed="false">Artistes</button><button aria-pressed="false">Dossiers</button></div>
+      <div class="tbl">
+        <div class="tr h"><span></span><span>Titre, artiste</span><span style="text-align:right">BPM</span><span style="text-align:right">Durée</span></div>
+        <div class="tr"><span></span><span>Après la fête<small>Vesper Club</small></span><span class="n">125</span><span class="n">5:01</span></div>
+        <div class="tr"><span></span><span>Côte Ouest<small>Maison Soleil</small></span><span class="n">121</span><span class="n">6:15</span></div>
+        <div class="tr"><i class="live"></i><span>Minuit sur le quai<small>Lune Basse</small></span><span class="n">124</span><span class="n">5:37</span></div>
+        <div class="tr"><span></span><span>Néons<small>Kaelo</small></span><span class="n">126</span><span class="n">3:48</span></div>
+        <div class="tr"><span></span><span>Pluie d'été<small>Odette Moreau</small></span><span class="n">123</span><span class="n">3:29</span></div>
+        <div class="tr"><span></span><span>Radio Nacre<small>Les Satellites</small></span><span class="n">122</span><span class="n">4:02</span></div>
+      </div>
+      <div class="mini"><i class="live"></i><div class="ticker doto"><span>Minuit sur le quai, Lune Basse</span></div><button aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span><i class="live"></i>En direct</span><span>4 à l'écoute</span></div>
+      <div class="code"><small>Code de la jam</small><div class="doto">K7Q2</div></div>
+      <div class="ticker tk"><span>Inès a ajouté Radio Nacre, Malik a voté pour Néons, Chloé a rejoint la jam</span></div>
+      <div class="ch">
+        <div class="chan"><canvas class="vu" width="40" height="80"></canvas>Toi<small>réf.</small></div>
+        <div class="chan"><canvas class="vu" width="40" height="80"></canvas>Inès<small>8 ms</small></div>
+        <div class="chan"><canvas class="vu" width="40" height="80"></canvas>Malik<small>12 ms</small></div>
+        <div class="chan"><canvas class="vu" width="40" height="80"></canvas>Chloé<small>5 ms</small></div>
+      </div>
+      <div class="dep">
+        <div class="tr h"><span>Prévu</span><span>Titre, proposé par</span><span style="text-align:right">Votes</span></div>
+        <div class="tr"><span class="t">22:41</span><span>Radio Nacre<small>Inès</small></span><button class="vk" aria-label="Voter, 3 votes">+3</button></div>
+        <div class="tr"><span class="t">22:45</span><span>Néons<small>Malik</small></span><button class="vk" aria-label="Voter, 2 votes">+2</button></div>
+      </div>
+      <button class="add">Proposer un titre</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<section class="next" aria-labelledby="tn">
+  <h2 id="tn">Ce qu'il reste à décider</h2>
+  <ul>
+    <li>Fusion 1, Fusion 2, ou les deux comme thèmes clair et sombre de la même app (le thème suit alors celui du téléphone).</li>
+    <li>La couleur d'accent : orange (plus chaleureux, côté appareil) ou rouge (plus signalétique, côté gare). Avec les deux thèmes, on peut garder une seule couleur pour les deux.</li>
+    <li>Le niveau de détail technique affiché par défaut (BPM, tonalité, format). On peut le rendre masquable pour les gens que ça n'intéresse pas.</li>
+  </ul>
+</section>
+
+<script>
+(function(){
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function lum(u, v){
+    var d = Math.hypot(u-.68, v-.32);
+    return d < .17 ? .95 : d < .24 ? .55 : .08 + .3*(1-v);
+  }
+  // Pochette en matrice de points
+  document.querySelectorAll('canvas.dotc').forEach(function(c){
+    var g = c.getContext('2d'), n = 22, s = c.width / n;
+    for (var y = 0; y < n; y++) for (var x = 0; x < n; x++){
+      var l = lum((x+.5)/n, (y+.5)/n);
+      g.fillStyle = l > .8 ? c.dataset.hi : c.dataset.lo;
+      g.beginPath(); g.arc((x+.5)*s, (y+.5)*s, Math.max(1.4, l*s*.46), 0, 7); g.fill();
+    }
+  });
+  // Forme d'onde en colonnes de points
+  document.querySelectorAll('canvas.dw').forEach(function(c){
+    var g = c.getContext('2d'), w = c.width, h = c.height, rows = 7, s = h / rows, cols = Math.floor(w / s), seed = +c.dataset.seed;
+    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var amps = [];
+    for (var i = 0; i < cols; i++) amps.push(Math.sin(Math.PI*i/cols)*.55 + .3 + rnd()*.3);
+    var at = +c.dataset.at;
+    function draw(){
+      g.clearRect(0, 0, w, h);
+      var head = Math.floor(at * cols);
+      for (var i = 0; i < cols; i++){
+        var k = Math.max(1, Math.min(rows, Math.round(amps[i] * rows)));
+        g.fillStyle = i === head ? c.dataset.head : i < head ? c.dataset.on : c.dataset.off;
+        for (var r = 0; r < k; r++){
+          g.beginPath(); g.arc((i+.5)*s, h - (r+.5)*s, s*.34, 0, 7); g.fill();
+        }
+      }
+    }
+    draw();
+    if (!still) setInterval(function(){ at = (at + 1/cols) % 1; draw(); }, 900);
+  });
+  // Niveaux en points (jam)
+  var meters = [];
+  document.querySelectorAll('canvas.lvl').forEach(function(c){ meters.push({c:c, horiz:true, on:'#FF5A1F', off:'#d6d5cf'}); });
+  document.querySelectorAll('canvas.vu').forEach(function(c){ meters.push({c:c, horiz:false, on:'#fff', off:'#2C2C2E', peak:'#D71921'}); });
+  function tick(){
+    meters.forEach(function(m){
+      var g = m.c.getContext('2d'), w = m.c.width, h = m.c.height, n = 8, lvl = Math.round((.3 + Math.random()*.65) * n);
+      g.clearRect(0, 0, w, h);
+      for (var i = 0; i < n; i++){
+        g.fillStyle = i < lvl ? (m.peak && i === n-1 ? m.peak : m.on) : m.off;
+        g.beginPath();
+        if (m.horiz) g.arc((i+.5)*w/n, h/2, Math.min(w/n, h)*.32, 0, 7);
+        else g.arc(w/2, h - (i+.5)*h/n, Math.min(h/n, w)*.34, 0, 7);
+        g.fill();
+      }
+    });
+  }
+  tick();
+  if (!still) setInterval(tick, 180);
+})();
+</script>
+</body>
+</html>

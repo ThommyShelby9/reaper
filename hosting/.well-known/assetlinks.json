@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lecteur.player",
+      "sha256_cert_fingerprints": [
+        "91:21:D8:CD:CA:51:AF:2A:74:C8:EC:C8:55:4D:92:12:F4:81:B8:6A:54:43:64:E4:BA:7C:1E:4E:DD:E9:B3:FC"
+      ]
+    }
+  }
+]

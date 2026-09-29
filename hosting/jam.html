@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejoindre une jam Reaper</title>
+<meta name="description" content="Invitation à une jam Reaper : écoutez la même musique en même temps.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@900&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --orange: #FF5A1F; --muted: #8E8E93; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: #000; color: #fff; font-family: Archivo, system-ui, sans-serif;
+         display: flex; align-items: center; justify-content: center; padding: 24px; }
+  main { width: 100%; max-width: 420px; text-align: center; }
+  svg { width: 96px; height: 96px; }
+  h1 { font-size: 22px; font-weight: 600; margin: 28px 0 6px; }
+  .label { color: var(--muted); font-size: 14px; margin: 0; }
+  .code { font-family: Doto, monospace; font-weight: 900; font-size: 56px; letter-spacing: 6px; margin: 4px 0 28px; }
+  a.key { display: block; padding: 16px; border-radius: 12px; background: var(--orange); color: #151515; font-weight: 600;
+          text-decoration: none; box-shadow: 0 4px 0 #B53C10; }
+  a.key:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  p.help { color: var(--muted); font-size: 14px; line-height: 1.5; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 108 108" role="img" aria-label="Logo Reaper" id="logo"></svg>
+  <h1>On vous invite à une jam</h1>
+  <p class="label">Code de la jam</p>
+  <p class="code" id="code">······</p>
+  <a class="key" id="open" href="#">Ouvrir dans Reaper</a>
+  <p class="help">Si Reaper est installé, ce lien s'ouvre normalement tout seul dans l'app. Sinon, ouvrez Reaper, touchez « Jam » et tapez le code ci-dessus. L'app n'est pas encore sur le Play Store : demandez-la à la personne qui vous invite.</p>
+</main>
+<script>
+  const code = (location.pathname.split('/jam/')[1] || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  if (code.length === 6) {
+    document.getElementById('code').textContent = code;
+    document.getElementById('open').href = 'reaper://jam/' + code;
+  }
+  // Même dessin que l'icône de l'app : la silhouette encapuchonnée en points, le regard orange.
+  const rows = ['...XXX...', '..XXXXX..', '.XXX.XXX.', '.XX...XX.', 'XX..O..XX', 'XX.....XX', 'XXX...XXX', 'XXXX.XXXX', 'XXXXXXXXX'];
+  const logo = document.getElementById('logo');
+  rows.forEach((row, y) => [...row].forEach((c, x) => {
+    if (c === '.') return;
+    const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('cx', 32.4 + x * 5.4); dot.setAttribute('cy', 32.4 + y * 5.4); dot.setAttribute('r', 2.1);
+    dot.setAttribute('fill', c === 'O' ? '#FF5A1F' : '#FFFFFF');
+    logo.appendChild(dot);
+  }));
+</script>
+</body>
+</html>

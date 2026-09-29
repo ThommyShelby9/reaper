@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecteur — directions visuelles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Big+Shoulders+Display:wght@500;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+<style>
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+
+:root{
+  --page:#E8E7EB; --page-ink:#1C1B22; --page-muted:#5B5966; --page-line:#CFCDD6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.5}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #2F6BFF;outline-offset:3px}
+
+/* ---------- page ---------- */
+.intro{max-width:1320px;margin:0 auto;padding:56px 32px 24px}
+.intro h1{font-size:44px;line-height:1.05;margin:0 0 14px;font-weight:700;letter-spacing:-.02em}
+.intro p{max-width:62ch;margin:0;color:var(--page-muted);font-size:17px}
+.dir{max-width:1320px;margin:0 auto;padding:48px 32px;border-top:1px solid var(--page-line);display:grid;grid-template-columns:280px 1fr;gap:40px}
+.meta .letter{font-size:15px;font-weight:600;color:var(--page-muted)}
+.meta h2{font-size:34px;line-height:1.05;margin:4px 0 12px;letter-spacing:-.015em}
+.meta p{margin:0 0 16px;color:var(--page-muted);max-width:40ch}
+.meta ul{margin:0 0 20px;padding-left:18px;max-width:40ch}
+.meta li{margin-bottom:6px}
+.sw{display:flex;gap:6px;margin-bottom:10px}
+.sw span{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
+.fonts{font-size:14px;color:var(--page-muted)}
+.phones{display:flex;gap:36px;overflow-x:auto;padding:4px 4px 16px}
+figure{margin:0;flex:none}
+figcaption{text-align:center;margin-top:12px;font-weight:600;font-size:15px}
+.phone{width:300px;height:640px;border-radius:46px;padding:10px;background:#101014;box-shadow:0 30px 60px -30px rgba(20,18,40,.55),inset 0 0 0 2px #2a2a31}
+.screen{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+@media (max-width:900px){.dir{grid-template-columns:1fr;gap:24px}.intro{padding:40px 16px 16px}.dir{padding:36px 16px}.intro h1{font-size:34px}}
+
+/* shared covers */
+.cv{border-radius:6px;flex:none;background-size:cover}
+.cv-lune{background:radial-gradient(circle at 68% 32%,#F4DD72 0 17%,transparent 18%),radial-gradient(circle at 68% 32%,rgba(244,221,114,.25) 0 26%,transparent 27%),linear-gradient(170deg,#2B4A83,#0F1733 70%)}
+.cv-sat{background:radial-gradient(circle at 50% 50%,#1A0F33 0 14%,transparent 15%),repeating-linear-gradient(45deg,#FF7F6A 0 9px,#FFC7A6 9px 18px)}
+.cv-odette{background:radial-gradient(circle at 50% 55%,#C8553D 0 20%,transparent 21%),linear-gradient(#7FA88B 0 55%,#E9D8B4 55%)}
+.cv-kaelo{background:conic-gradient(from 90deg at 50% 50%,#BFA8FF,#3A1E6E,#FF7F6A,#BFA8FF)}
+.cv-soleil{background:radial-gradient(circle at 50% 100%,#FFB13B 0 34%,#FF5A1F 35% 50%,#FFE6C4 51%)}
+.cv-vesper{background:linear-gradient(135deg,#1b1b1b 0 50%,#2F6BFF 50%)}
+
+/* ============ A — Hi-Fi ============ */
+.dA .screen{background:repeating-linear-gradient(93deg,rgba(255,255,255,.025) 0 2px,transparent 2px 9px),linear-gradient(#3A2416,#1F1208);color:#F3E6C4;font-family:"IBM Plex Sans",sans-serif}
+.dA .disp{font-family:"Big Shoulders Display",sans-serif}
+.dA .plate{margin:14px 14px 0;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:12px;color:#2A2520;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 3px),linear-gradient(#E1DED6,#B5B1A7);box-shadow:inset 0 -1px 0 rgba(0,0,0,.25)}
+.dA .plate b{font-weight:600}
+.dA .deck{position:relative;height:250px;flex:none}
+.dA .vinyl{position:absolute;left:30px;top:16px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,transparent 0 30%,rgba(255,255,255,.07) 31%,transparent 33%),repeating-radial-gradient(circle,#141210 0 1px,#221f1c 1px 3px);box-shadow:0 12px 30px rgba(0,0,0,.55);animation:spin 1.8s linear infinite}
+.dA .vinyl::after{content:"";position:absolute;inset:36%;border-radius:50%;background:radial-gradient(circle,#1F1208 0 7%,transparent 8%),radial-gradient(circle at 68% 32%,#F4DD72 0 17%,transparent 18%),linear-gradient(170deg,#2B4A83,#0F1733)}
+.dA .arm{position:absolute;inset:0;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dA .ttl{padding:0 20px}
+.dA .ttl h3{margin:0;font-size:32px;line-height:1;font-weight:800;letter-spacing:.01em}
+.dA .ttl p{margin:4px 0 0;font-size:13px;color:#CDB892}
+.dA .vus{display:flex;gap:12px;padding:14px 20px 0}
+.dA .vu{flex:1;height:auto;border-radius:6px;box-shadow:inset 0 0 0 2px #1a110a,0 0 16px rgba(255,177,59,.25)}
+.dA .needle{transform-box:view-box;transform-origin:55px 58px;animation:vu 1.4s ease-in-out infinite alternate}
+.dA .vu.r .needle{animation-duration:1.1s;animation-delay:-.4s}
+@keyframes vu{0%{transform:rotate(-38deg)}30%{transform:rotate(8deg)}55%{transform:rotate(-12deg)}80%{transform:rotate(22deg)}100%{transform:rotate(-4deg)}}
+.dA .prog{padding:16px 20px 0;font-size:11px;color:#CDB892;display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.dA .bar{flex:1;height:3px;background:#4A3322;border-radius:2px;position:relative}
+.dA .bar i{position:absolute;left:0;top:0;bottom:0;width:38%;background:#FFB13B;border-radius:2px;box-shadow:0 0 8px #FFB13B}
+.dA .ctrl{display:flex;justify-content:center;align-items:center;gap:22px;padding:18px 0 0}
+.dA .knob{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#2A2520;background:radial-gradient(circle at 35% 30%,#F4F2EC,#A9A59B 70%);box-shadow:0 4px 10px rgba(0,0,0,.5),inset 0 -2px 3px rgba(0,0,0,.25)}
+.dA .knob.big{width:70px;height:70px;box-shadow:0 0 0 3px #1F1208,0 0 0 5px #FFB13B,0 0 22px rgba(255,177,59,.6),inset 0 -2px 3px rgba(0,0,0,.25)}
+.dA .head{padding:22px 20px 10px}
+.dA .head h3{margin:0;font-size:38px;font-weight:800;line-height:1}
+.dA .tabs{display:flex;gap:6px;padding:0 20px 14px}
+.dA .tabs button{font-size:12px;padding:6px 10px;border-radius:5px;color:#2A2520;background:linear-gradient(#DAD7CF,#ADA99F);box-shadow:0 2px 0 #6c665b}
+.dA .tabs button[aria-pressed=true]{background:linear-gradient(#FFC766,#E89A22);box-shadow:0 1px 0 #8a5a12,0 0 10px rgba(255,177,59,.5);transform:translateY(1px)}
+.dA .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0 20px;overflow:hidden;flex:1}
+.dA .grid .cv{aspect-ratio:1;width:100%;border-radius:3px;box-shadow:0 8px 16px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.08)}
+.dA .grid b{display:block;font-size:13px;margin-top:6px;font-weight:600}
+.dA .grid span{font-size:11px;color:#CDB892}
+.dA .mini{margin:10px 12px 12px;border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:10px;color:#2A2520;background:repeating-linear-gradient(90deg,rgba(255,255,255,.28) 0 1px,transparent 1px 3px),linear-gradient(#E1DED6,#B5B1A7)}
+.dA .mini .mv{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle,#F4DD72 0 12%,#2B4A83 13% 30%,#181512 31%);animation:spin 1.8s linear infinite}
+.dA .mini div{flex:1;font-size:12px;line-height:1.3}
+.dA .mini b{display:block;font-size:13px}
+.dA .lcd{margin:6px 20px 0;border-radius:10px;background:#120B06;box-shadow:inset 0 2px 8px #000;padding:14px;text-align:center}
+.dA .lcd small{font-size:11px;color:#CDB892}
+.dA .lcd .code{font-family:"Big Shoulders Display",sans-serif;font-size:46px;font-weight:700;letter-spacing:.12em;color:#FFB13B;text-shadow:0 0 12px rgba(255,177,59,.7);line-height:1.1}
+.dA .who{display:flex;align-items:center;gap:8px;padding:14px 20px 0;font-size:12px;color:#CDB892}
+.dA .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#2A2520;margin-right:-14px;border:2px solid #2B1A10}
+.dA .sync{display:flex;align-items:center;gap:8px;margin:10px 20px 0;font-size:12px;color:#F3E6C4}
+.dA .sync i{width:8px;height:8px;border-radius:50%;background:#FFB13B;box-shadow:0 0 8px #FFB13B}
+.dA .q{padding:14px 20px 0;display:flex;flex-direction:column;gap:10px;flex:1}
+.dA .q h4{margin:0;font-size:20px;font-family:"Big Shoulders Display";font-weight:700}
+.dA .row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.25);border-radius:8px;padding:8px}
+.dA .row .cv{width:40px;height:40px}
+.dA .row div{flex:1;font-size:12px;line-height:1.3;color:#CDB892}
+.dA .row b{display:block;color:#F3E6C4;font-size:13px}
+.dA .vote{display:flex;flex-direction:column;align-items:center;font-size:12px;color:#FFB13B;font-weight:600}
+.dA .vote .ic{width:16px;height:16px}
+.dA .cta{margin:0 20px 18px;padding:13px;border-radius:10px;text-align:center;font-weight:600;font-size:14px;color:#2A2520;background:linear-gradient(#FFC766,#E89A22);box-shadow:0 3px 0 #8a5a12}
+
+/* ============ B — Aura ============ */
+.dB .screen{background:#1A0F33;color:#fff;font-family:"Figtree",sans-serif}
+.dB .blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.85;animation:drift 12s ease-in-out infinite alternate}
+.dB .b1{width:240px;height:240px;background:#FF7F6A;top:-60px;left:-80px}
+.dB .b2{width:220px;height:220px;background:#6B3FD6;top:170px;right:-90px;animation-delay:-4s}
+.dB .b3{width:200px;height:200px;background:#FFC7A6;bottom:-60px;left:10px;opacity:.5;animation-delay:-8s}
+@keyframes drift{to{transform:translate(30px,40px) scale(1.15)}}
+.dB .layer{position:relative;z-index:1;display:flex;flex-direction:column;height:100%}
+.dB .un{font-family:"Unbounded",sans-serif}
+.dB .top{display:flex;align-items:center;justify-content:space-between;padding:22px 20px 0;font-size:12px}
+.dB .top span{opacity:.85}
+.dB .art{width:236px;height:236px;border-radius:34px;margin:22px auto 0;box-shadow:0 24px 50px -10px rgba(30,5,60,.7)}
+.dB .ttl{display:flex;align-items:flex-end;justify-content:space-between;padding:24px 22px 0}
+.dB .ttl h3{margin:0;font-size:21px;line-height:1.15;font-weight:700}
+.dB .ttl p{margin:4px 0 0;font-size:14px;opacity:.85}
+.dB .ttl .ic{color:#FFC7A6;fill:#FFC7A6}
+.dB .wave{padding:18px 18px 0}
+.dB .times{display:flex;justify-content:space-between;font-size:11px;opacity:.8;padding:4px 20px 0;font-variant-numeric:tabular-nums}
+.dB .ctrl{display:flex;align-items:center;justify-content:space-between;padding:14px 26px 0}
+.dB .play{width:78px;height:78px;border-radius:26px;background:#FFC7A6;color:#2A1454;display:grid;place-items:center}
+.dB .play .ic{width:30px;height:30px}
+.dB .chips{display:flex;gap:8px;justify-content:center;padding:22px 0 0}
+.dB .chip{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px)}
+.dB .chip .ic{width:16px;height:16px}
+.dB .search{margin:22px 18px 0;display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;background:rgba(255,255,255,.14);font-size:13px}
+.dB h4{margin:22px 20px 10px;font-family:"Unbounded";font-size:15px;font-weight:700}
+.dB .smart{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 18px}
+.dB .tile{border-radius:22px;padding:14px;height:92px;display:flex;flex-direction:column;justify-content:space-between;color:#2A1454}
+.dB .tile b{font-size:14px;line-height:1.2}
+.dB .tile span{font-size:11px;font-weight:600;opacity:.8}
+.dB .recent{display:flex;gap:10px;padding:0 18px;overflow:hidden}
+.dB .recent .cv{width:92px;height:92px;border-radius:20px}
+.dB .miniB{margin:auto 14px 14px;display:flex;align-items:center;gap:10px;padding:8px;border-radius:999px;background:rgba(255,255,255,.92);color:#2A1454;font-size:12px}
+.dB .miniB .cv{width:40px;height:40px;border-radius:50%}
+.dB .miniB div{flex:1;line-height:1.25}
+.dB .miniB b{display:block;font-size:13px}
+.dB .miniB .pb{width:40px;height:40px;border-radius:14px;background:#2A1454;color:#FFC7A6;display:grid;place-items:center}
+.dB .orbit{position:relative;width:250px;height:250px;margin:14px auto 0}
+.dB .orbit .cv{position:absolute;inset:45px;border-radius:50%;box-shadow:0 0 0 10px rgba(255,255,255,.08),0 0 0 22px rgba(255,255,255,.05)}
+.dB .orbit .av{position:absolute;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;color:#2A1454;border:3px solid #1A0F33}
+.dB .float{position:absolute;color:#FF7F6A;fill:#FF7F6A;animation:rise 3.2s ease-in infinite;opacity:0}
+.dB .float.f2{left:170px;animation-delay:-1.1s;color:#FFC7A6;fill:#FFC7A6}
+.dB .float.f3{left:120px;animation-delay:-2.2s}
+@keyframes rise{0%{transform:translateY(200px) scale(.6);opacity:0}20%{opacity:1}100%{transform:translateY(20px) scale(1.1);opacity:0}}
+.dB .jamt{text-align:center;padding:8px 20px 0}
+.dB .jamt h3{margin:0;font-size:19px;font-weight:700}
+.dB .jamt p{margin:4px 0 0;font-size:13px;opacity:.85}
+.dB .qB{padding:14px 18px 0;display:flex;flex-direction:column;gap:8px}
+.dB .qB .it{display:flex;align-items:center;gap:10px;padding:8px;border-radius:18px;background:rgba(255,255,255,.1);font-size:12px}
+.dB .qB .cv{width:38px;height:38px;border-radius:12px}
+.dB .qB div{flex:1;line-height:1.3;opacity:.95}
+.dB .qB b{display:block;font-size:13px}
+.dB .pill{padding:6px 10px;border-radius:999px;background:#FFC7A6;color:#2A1454;font-weight:700;font-size:12px;display:flex;align-items:center;gap:3px}
+.dB .pill .ic{width:14px;height:14px;stroke-width:2.4}
+.dB .ctaB{margin:auto 18px 16px;padding:14px;border-radius:999px;background:#fff;color:#2A1454;font-weight:700;font-size:14px;display:flex;justify-content:center;gap:8px;align-items:center}
+
+/* ============ C — Console ============ */
+.dC .screen{background:#E4E3DE;color:#151515;font-family:"Archivo",sans-serif}
+.dC .mono{font-family:"JetBrains Mono",monospace}
+.dC .hdr{display:flex;justify-content:space-between;align-items:center;padding:20px 18px 0;font-size:12px;color:#55544f}
+.dC .lcd{margin:12px 14px 0;background:#161616;border-radius:10px;padding:12px 12px 10px;box-shadow:inset 0 2px 6px #000}
+.dC .wave{display:flex;align-items:center;gap:2px;height:70px}
+.dC .wave i{flex:1;background:#5a5a58;border-radius:1px}
+.dC .wave i.on{background:#FF5A1F}
+.dC .lcd .t{display:flex;justify-content:space-between;color:#FF5A1F;font-size:11px;margin-top:8px}
+.dC .ttl{padding:16px 18px 0}
+.dC .ttl h3{margin:0;font-size:34px;line-height:.95;font-weight:800;font-stretch:72%;letter-spacing:-.01em}
+.dC .ttl p{margin:4px 0 0;font-size:13px;color:#55544f}
+.dC .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:14px 14px 0}
+.dC .tile{background:#F2F1ED;border-radius:8px;padding:8px 10px;box-shadow:inset 0 0 0 1px #cfcec8}
+.dC .tile b{display:block;font-size:20px;font-weight:700;font-stretch:80%}
+.dC .tile span{font-size:11px;color:#55544f}
+.dC .knobs{display:flex;justify-content:space-around;padding:16px 14px 0}
+.dC .kn{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#55544f}
+.dC .dial{width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fafaf8,#cfcec8);box-shadow:0 3px 6px rgba(0,0,0,.25),inset 0 0 0 1px #bdbcb5;position:relative}
+.dC .dial::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:14px;margin-left:-1.5px;border-radius:2px;background:#151515;transform-origin:50% 21px}
+.dC .dial.x::after{transform:rotate(60deg);background:#FF5A1F}
+.dC .dial.v::after{transform:rotate(-30deg)}
+.dC .keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:18px 14px 0}
+.dC .key{height:58px;border-radius:10px;background:#F7F6F2;display:grid;place-items:center;box-shadow:0 4px 0 #b3b2ab,0 5px 8px rgba(0,0,0,.18);color:#151515}
+.dC .key.or{background:#FF5A1F;box-shadow:0 4px 0 #b53c10,0 5px 8px rgba(0,0,0,.18)}
+.dC .key.dk{background:#262626;color:#E4E3DE;box-shadow:0 4px 0 #000,0 5px 8px rgba(0,0,0,.2)}
+.dC .filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:14px 14px 0}
+.dC .filters button{font-size:12px;font-weight:600;padding:9px 0;border-radius:7px;background:#F7F6F2;box-shadow:0 3px 0 #b3b2ab}
+.dC .filters button[aria-pressed=true]{background:#151515;color:#F7F6F2;box-shadow:0 3px 0 #000}
+.dC .srch{margin:14px 14px 0;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;background:#F7F6F2;box-shadow:inset 0 0 0 1px #cfcec8;font-size:13px;color:#55544f}
+.dC .tbl{margin:12px 14px 0;font-size:12px;flex:1;overflow:hidden}
+.dC .tr{display:grid;grid-template-columns:1fr 34px 30px 40px;gap:6px;padding:8px 6px;border-bottom:1px solid #cfcec8;align-items:center}
+.dC .tr.h{font-size:11px;color:#55544f;border-bottom:1px solid #151515}
+.dC .tr b{display:block;font-weight:600;font-stretch:88%;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dC .tr small{color:#55544f;font-size:11px}
+.dC .tr .mono{font-size:11px;text-align:right}
+.dC .tr.now{background:#151515;color:#F7F6F2;border-radius:6px}
+.dC .tr.now small{color:#FF8A5E}
+.dC .strip{margin:0 10px 10px;border-radius:12px;background:#151515;color:#F7F6F2;display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:12px}
+.dC .strip div{flex:1;line-height:1.25}
+.dC .strip b{display:block;font-size:13px}
+.dC .strip .key{height:38px;width:38px}
+.dC .code{padding:14px 18px 0;font-size:40px;font-weight:800;font-stretch:65%;line-height:1}
+.dC .code small{display:block;font-size:12px;font-weight:500;font-stretch:100%;color:#55544f;margin-bottom:2px}
+.dC .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px 14px 0}
+.dC .ch{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 14px 0}
+.dC .chan{background:#F2F1ED;border-radius:10px;box-shadow:inset 0 0 0 1px #cfcec8;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.dC .fader{display:flex;gap:5px;height:110px;align-items:stretch}
+.dC .track{width:6px;background:#cfcec8;border-radius:3px;position:relative}
+.dC .track span{position:absolute;left:-7px;width:20px;height:12px;border-radius:3px;background:#262626;box-shadow:0 2px 3px rgba(0,0,0,.3)}
+.dC .meter{width:6px;border-radius:3px;background:#dcdbd6;display:flex;flex-direction:column-reverse;overflow:hidden}
+.dC .meter i{display:block;background:#FF5A1F;height:40%;transition:height .15s}
+.dC .chan b{font-size:13px}
+.dC .chan small{font-size:10px;color:#55544f}
+.dC .qC{margin:12px 14px 0;font-size:12px}
+.dC .qC .tr{grid-template-columns:1fr 44px}
+.dC .vk{justify-self:end;display:flex;align-items:center;gap:2px;padding:5px 7px;border-radius:6px;background:#F7F6F2;box-shadow:0 2px 0 #b3b2ab;font-weight:700}
+.dC .vk .ic{width:13px;height:13px;stroke-width:2.4}
+
+/* ============ D — Paroles ============ */
+.dD .screen{background:#15123A;color:#F4F2FF;font-family:"Bricolage Grotesque",sans-serif}
+.dD .top{display:flex;align-items:center;gap:10px;padding:22px 20px 0;font-size:12px}
+.dD .top .cv{width:42px;height:42px;border-radius:8px}
+.dD .top div{flex:1;line-height:1.3;color:#B9B6E3}
+.dD .top b{display:block;color:#F4F2FF;font-size:14px}
+.dD .top .ic{color:#F4DD72;fill:#F4DD72}
+.dD .lyr{flex:1;padding:26px 20px 0;display:flex;flex-direction:column;gap:12px;font-size:30px;line-height:1.08;font-weight:700;letter-spacing:-.015em;font-variation-settings:"opsz" 96}
+.dD .lyr .past{color:#5E5A99}
+.dD .lyr .next{color:#A9A6D6}
+.dD .lyr .cur{font-size:36px;background:linear-gradient(90deg,#F4DD72 var(--p),#7D79B8 var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;animation:sing 5s linear infinite}
+@keyframes sing{from{--p:0%}to{--p:100%}}
+.dD .foot{padding:0 20px 20px}
+.dD .pr{height:3px;background:#2E2A66;border-radius:2px;position:relative;margin-bottom:8px}
+.dD .pr i{position:absolute;left:0;top:0;bottom:0;width:41%;background:#F4DD72;border-radius:2px}
+.dD .tm{display:flex;justify-content:space-between;font-size:11px;color:#B9B6E3;font-variant-numeric:tabular-nums}
+.dD .ctrl{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.dD .ctrl .pp{width:64px;height:64px;border-radius:50%;background:#F4DD72;color:#15123A;display:grid;place-items:center}
+.dD .ctrl .pp .ic{width:26px;height:26px}
+.dD .nav{display:flex;gap:16px;padding:24px 20px 0;font-size:14px;color:#8D8AB8}
+.dD .nav b{color:#F4F2FF;text-decoration:underline;text-decoration-color:#F4DD72;text-decoration-thickness:3px;text-underline-offset:6px}
+.dD .artists{position:relative;flex:1;padding:18px 36px 0 20px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.dD .artists div{font-size:34px;font-weight:800;line-height:1.05;letter-spacing:-.02em;font-variation-settings:"opsz" 96}
+.dD .artists sup{font-size:12px;font-weight:500;color:#8D8AB8;margin-left:4px;letter-spacing:0}
+.dD .artists .hl{color:#F4DD72}
+.dD .az{position:absolute;right:10px;top:22px;display:flex;flex-direction:column;font-size:10px;color:#8D8AB8;line-height:1.55;text-align:center}
+.dD .az b{color:#F4DD72}
+.dD .miniD{margin:0 14px 14px;display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;background:#221E55;font-size:12px}
+.dD .miniD .cv{width:36px;height:36px}
+.dD .miniD div{flex:1;line-height:1.25;color:#B9B6E3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dD .miniD b{color:#F4F2FF}
+.dD .jamD{padding:24px 20px 0}
+.dD .jamD small{font-size:13px;color:#B9B6E3}
+.dD .jamD .code{font-size:58px;font-weight:800;line-height:1;letter-spacing:-.02em;color:#F4DD72;margin:4px 0 10px;font-variation-settings:"opsz" 96}
+.dD .jamD p{margin:0;font-size:19px;line-height:1.25;font-weight:600}
+.dD .jamD p span{color:#F4DD72}
+.dD .qD{padding:22px 20px 0;display:flex;flex-direction:column;gap:14px;flex:1}
+.dD .qD h4{margin:0;font-size:13px;font-weight:500;color:#B9B6E3}
+.dD .qi{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:baseline}
+.dD .qi .n{font-size:13px;color:#8D8AB8}
+.dD .qi b{font-size:20px;font-weight:700;line-height:1.1;display:block}
+.dD .qi small{font-size:12px;color:#B9B6E3}
+.dD .qi .v{font-size:13px;font-weight:700;color:#15123A;background:#F4DD72;border-radius:999px;padding:3px 9px}
+.dD .ctaD{margin:0 20px 20px;padding:14px;border-radius:14px;border:2px solid #F4DD72;color:#F4DD72;font-weight:700;display:flex;justify-content:center;gap:8px;align-items:center}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14"/><path d="M19 5L9 12l10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14"/><path d="M5 5l10 7-10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 7h3.5c2 0 3.2 1 4.3 2.7l2.4 4.6c1.1 1.7 2.3 2.7 4.3 2.7H21M3 17h3.5c1.3 0 2.2-.4 3-1.2M14.5 8.2c.8-.8 1.7-1.2 3-1.2H21M18 4l3 3-3 3M18 14l3 3-3 3"/></symbol>
+  <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4 11V9a3 3 0 0 1 3-3h13M17 3l3 3-3 3M20 13v2a3 3 0 0 1-3 3H4M7 21l-3-3 3-3"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+  <symbol id="i-lyrics" viewBox="0 0 24 24"><path d="M4 6h16M4 11h10M4 16h13M4 21h7"/></symbol>
+  <symbol id="i-queue" viewBox="0 0 24 24"><path d="M4 6h12M4 11h12M4 16h7M16 14v6l5-3z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.8 3 2.6 3.5 5.2"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3M21 14v7h-4M14 21v-3"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="19" cy="12" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<header class="intro">
+  <h1>Lecteur, quatre directions visuelles</h1>
+  <p>Chaque direction montre les mêmes trois écrans : la lecture en cours, la bibliothèque et une jam. Choisissez celle qui vous parle, ou dites-moi quoi prendre dans chacune.</p>
+  <p style="margin-top:10px"><a href="propositions-2.html" style="color:#2F4FD0">Voir les six autres directions (E à J) et la synthèse de la recherche</a></p>
+</header>
+
+<!-- ======================= A ======================= -->
+<section class="dir dA" aria-labelledby="tA">
+  <div class="meta">
+    <div class="letter">Direction A</div>
+    <h2 id="tA">Hi-Fi</h2>
+    <p>L'app comme une platine et un ampli des années 70 : noyer, aluminium brossé, rétroéclairage ambré.</p>
+    <ul>
+      <li>Vinyle qui tourne, bras de lecture, vumètres à aiguille branchés sur le vrai signal</li>
+      <li>Boutons physiques avec relief, code de jam affiché comme un afficheur d'ampli</li>
+      <li>Chaleureux et nostalgique, très marqué</li>
+    </ul>
+    <div class="sw"><span style="background:#2B1A10"></span><span style="background:#C9C5BC"></span><span style="background:#FFB13B"></span><span style="background:#F3E6C4"></span></div>
+    <div class="fonts">Big Shoulders Display, IBM Plex Sans</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="plate"><span><b>Face A</b>, plage 3 sur 9</span><span>33 tr/min</span></div>
+      <div class="deck">
+        <div class="vinyl"></div>
+        <svg class="arm" viewBox="0 0 280 250" aria-hidden="true">
+          <circle cx="252" cy="34" r="14" fill="#B5B1A7" stroke="#6c665b" stroke-width="2"/>
+          <circle cx="252" cy="34" r="5" fill="#2A2520"/>
+          <path d="M252 34 L246 120 L214 168" stroke="#D9D6CF" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <rect x="202" y="162" width="20" height="12" rx="2" transform="rotate(-34 212 168)" fill="#2A2520"/>
+        </svg>
+      </div>
+      <div class="ttl"><h3 class="disp">Minuit sur le quai</h3><p>Lune Basse, Quai Nord (FLAC)</p></div>
+      <div class="vus">
+        <svg class="vu" viewBox="0 0 110 64" role="img" aria-label="Vumètre gauche"><rect width="110" height="64" rx="6" fill="#F3E6C4"/><path d="M16 50 A42 42 0 0 1 80 20" stroke="#3a2a1a" stroke-width="1.5" fill="none"/><path d="M80 20 A42 42 0 0 1 94 50" stroke="#C0392B" stroke-width="3" fill="none"/><text x="8" y="14" font-size="8" fill="#3a2a1a" font-family="IBM Plex Sans">L</text><line class="needle" x1="55" y1="58" x2="55" y2="14" stroke="#1F1208" stroke-width="1.5"/><circle cx="55" cy="58" r="3" fill="#1F1208"/></svg>
+        <svg class="vu r" viewBox="0 0 110 64" role="img" aria-label="Vumètre droit"><rect width="110" height="64" rx="6" fill="#F3E6C4"/><path d="M16 50 A42 42 0 0 1 80 20" stroke="#3a2a1a" stroke-width="1.5" fill="none"/><path d="M80 20 A42 42 0 0 1 94 50" stroke="#C0392B" stroke-width="3" fill="none"/><text x="8" y="14" font-size="8" fill="#3a2a1a" font-family="IBM Plex Sans">R</text><line class="needle" x1="55" y1="58" x2="55" y2="14" stroke="#1F1208" stroke-width="1.5"/><circle cx="55" cy="58" r="3" fill="#1F1208"/></svg>
+      </div>
+      <div class="prog"><span>2:08</span><div class="bar"><i></i></div><span>5:37</span></div>
+      <div class="ctrl">
+        <button class="knob" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="knob big" aria-label="Pause"><svg class="ic" style="width:28px;height:28px"><use href="#i-pause"/></svg></button>
+        <button class="knob" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3 class="disp">Discothèque</h3></div>
+      <div class="tabs"><button aria-pressed="true">Albums</button><button aria-pressed="false">Artistes</button><button aria-pressed="false">Titres</button><button aria-pressed="false">Dossiers</button></div>
+      <div class="grid">
+        <div><div class="cv cv-lune"></div><b>Quai Nord</b><span>Lune Basse</span></div>
+        <div><div class="cv cv-sat"></div><b>Radio Nacre</b><span>Les Satellites</span></div>
+        <div><div class="cv cv-odette"></div><b>Pluie d'été</b><span>Odette Moreau</span></div>
+        <div><div class="cv cv-kaelo"></div><b>Néons</b><span>Kaelo</span></div>
+        <div><div class="cv cv-soleil"></div><b>Côte Ouest</b><span>Maison Soleil</span></div>
+        <div><div class="cv cv-vesper"></div><b>Après la fête</b><span>Vesper Club</span></div>
+      </div>
+      <div class="mini"><div class="mv"></div><div><b>Minuit sur le quai</b>Lune Basse</div><button aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3 class="disp">Salon d'écoute</h3></div>
+      <div class="lcd"><small>Code du salon</small><div class="code">K7 42Q</div></div>
+      <div class="who">
+        <span class="av" style="background:#FFB13B">I</span><span class="av" style="background:#F3E6C4">M</span><span class="av" style="background:#C9C5BC">C</span><span class="av" style="background:#E89A22;margin-right:6px">T</span>
+        4 personnes écoutent
+      </div>
+      <div class="sync"><i></i>Tout le monde est synchronisé, écart 18 ms</div>
+      <div class="q">
+        <h4>À suivre</h4>
+        <div class="row"><div class="cv cv-sat"></div><div><b>Radio Nacre</b>Proposé par Inès</div><div class="vote"><svg class="ic"><use href="#i-up"/></svg>3</div></div>
+        <div class="row"><div class="cv cv-kaelo"></div><div><b>Néons</b>Proposé par Malik</div><div class="vote"><svg class="ic"><use href="#i-up"/></svg>2</div></div>
+        <div class="row"><div class="cv cv-soleil"></div><div><b>Côte Ouest</b>Proposé par Chloé</div><div class="vote"><svg class="ic"><use href="#i-up"/></svg>1</div></div>
+      </div>
+      <button class="cta">Proposer un titre</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= B ======================= -->
+<section class="dir dB" aria-labelledby="tB">
+  <div class="meta">
+    <div class="letter">Direction B</div>
+    <h2 id="tB">Aura</h2>
+    <p>Chaque morceau repeint l'app : les couleurs sont extraites de la pochette et flottent derrière l'interface.</p>
+    <ul>
+      <li>Moderne, doux, dans l'esprit Material You poussé plus loin</li>
+      <li>Barre de progression ondulée, gros bouton lecture aux coins arrondis</li>
+      <li>La jam montre les amis en orbite autour de la pochette, avec des réactions qui s'envolent</li>
+    </ul>
+    <div class="sw"><span style="background:#1A0F33"></span><span style="background:#6B3FD6"></span><span style="background:#FF7F6A"></span><span style="background:#FFC7A6"></span></div>
+    <div class="fonts">Unbounded, Figtree. Couleurs variables selon la pochette</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="layer">
+        <div class="top"><button aria-label="Réduire"><svg class="ic"><use href="#i-down"/></svg></button><span>Depuis « Soirée douce »</span><button aria-label="Plus d'options"><svg class="ic"><use href="#i-more"/></svg></button></div>
+        <div class="art cv cv-lune"></div>
+        <div class="ttl"><div><h3 class="un">Minuit sur le quai</h3><p>Lune Basse</p></div><button aria-label="Retirer des favoris"><svg class="ic"><use href="#i-heart"/></svg></button></div>
+        <div class="wave"><svg viewBox="0 0 244 20" width="100%" aria-hidden="true"><path d="M2 10 q5 -7 10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0 t10 0" stroke="#FFC7A6" stroke-width="3.5" fill="none" stroke-linecap="round"/><line x1="112" y1="10" x2="242" y2="10" stroke="rgba(255,255,255,.3)" stroke-width="3.5" stroke-linecap="round"/><rect x="103" y="1" width="5" height="18" rx="2.5" fill="#fff"/></svg></div>
+        <div class="times"><span>2:08</span><span>5:37</span></div>
+        <div class="ctrl">
+          <button aria-label="Aléatoire"><svg class="ic"><use href="#i-shuffle"/></svg></button>
+          <button aria-label="Précédent"><svg class="ic" style="width:28px;height:28px"><use href="#i-prev"/></svg></button>
+          <button class="play" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+          <button aria-label="Suivant"><svg class="ic" style="width:28px;height:28px"><use href="#i-next"/></svg></button>
+          <button aria-label="Répéter"><svg class="ic"><use href="#i-repeat"/></svg></button>
+        </div>
+        <div class="chips"><button class="chip"><svg class="ic"><use href="#i-lyrics"/></svg>Paroles</button><button class="chip"><svg class="ic"><use href="#i-queue"/></svg>À suivre</button><button class="chip"><svg class="ic"><use href="#i-users"/></svg>Jam</button></div>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="blob b1" style="background:#6B3FD6"></div><div class="blob b2" style="background:#FF7F6A;top:300px"></div>
+      <div class="layer">
+        <div class="search"><svg class="ic" style="width:18px;height:18px"><use href="#i-search"/></svg>Rechercher dans 2 480 titres</div>
+        <h4>Playlists intelligentes</h4>
+        <div class="smart">
+          <div class="tile" style="background:#FFC7A6"><b>Jamais écoutées</b><span>312 titres</span></div>
+          <div class="tile" style="background:#BFA8FF"><b>Plus de 120 BPM</b><span>184 titres</span></div>
+          <div class="tile" style="background:#FF9A85"><b>Ajoutées ce mois-ci</b><span>46 titres</span></div>
+          <div class="tile" style="background:#E9D8B4"><b>Tes soirées</b><span>Écoutées après 22 h</span></div>
+        </div>
+        <h4>Récemment ajoutés</h4>
+        <div class="recent"><div class="cv cv-sat"></div><div class="cv cv-odette"></div><div class="cv cv-kaelo"></div></div>
+        <div class="miniB"><div class="cv cv-lune"></div><div><b>Minuit sur le quai</b>Lune Basse</div><button class="pb" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+      </div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <div class="layer">
+        <div class="orbit">
+          <div class="cv cv-lune"></div>
+          <span class="av" style="background:#FFC7A6;left:105px;top:0">I</span>
+          <span class="av" style="background:#BFA8FF;right:0;top:105px">M</span>
+          <span class="av" style="background:#FF9A85;left:105px;bottom:0">C</span>
+          <span class="av" style="background:#E9D8B4;left:0;top:105px">T</span>
+          <svg class="ic float" style="left:60px"><use href="#i-heart"/></svg>
+          <svg class="ic float f2"><use href="#i-heart"/></svg>
+          <svg class="ic float f3"><use href="#i-heart"/></svg>
+        </div>
+        <div class="jamt"><h3 class="un">Jam avec Inès</h3><p>4 personnes, code 4821</p></div>
+        <div class="qB">
+          <div class="it"><div class="cv cv-sat"></div><div><b>Radio Nacre</b>Les Satellites, par Inès</div><button class="pill" aria-label="Voter pour Radio Nacre, 3 votes"><svg class="ic"><use href="#i-up"/></svg>3</button></div>
+          <div class="it"><div class="cv cv-kaelo"></div><div><b>Néons</b>Kaelo, par Malik</div><button class="pill" aria-label="Voter pour Néons, 2 votes"><svg class="ic"><use href="#i-up"/></svg>2</button></div>
+        </div>
+        <button class="ctaB"><svg class="ic"><use href="#i-qr"/></svg>Inviter avec un QR code</button>
+      </div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= C ======================= -->
+<section class="dir dC" aria-labelledby="tC">
+  <div class="meta">
+    <div class="letter">Direction C</div>
+    <h2 id="tC">Console</h2>
+    <p>Un appareil de studio en plastique clair : touches, potentiomètres, écran de forme d'onde. Pensé pour les gens qui aiment les détails techniques.</p>
+    <ul>
+      <li>La forme d'onde complète du morceau remplace la barre de progression</li>
+      <li>BPM, tonalité et format visibles partout, utiles pour le mix auto</li>
+      <li>En jam, chaque participant est une tranche de console avec son niveau et sa synchro</li>
+    </ul>
+    <div class="sw"><span style="background:#E4E3DE"></span><span style="background:#151515"></span><span style="background:#FF5A1F"></span><span style="background:#F7F6F2"></span></div>
+    <div class="fonts">Archivo (largeur variable), JetBrains Mono pour les chiffres</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span>Plage 3 sur 9</span><span class="mono">FLAC 24/96</span></div>
+      <div class="lcd"><div class="wave" data-bars="64" data-on="26"></div><div class="t mono"><span>02:08</span><span>05:37</span></div></div>
+      <div class="ttl"><h3>Minuit sur le quai</h3><p>Lune Basse, Quai Nord</p></div>
+      <div class="tiles">
+        <div class="tile"><b class="mono" style="font-family:inherit">124</b><span>BPM</span></div>
+        <div class="tile"><b>8A</b><span>Tonalité</span></div>
+        <div class="tile"><b>−8,2</b><span>dB normalisé</span></div>
+      </div>
+      <div class="knobs">
+        <div class="kn"><div class="dial x"></div>Fondu 6 s</div>
+        <div class="kn"><div class="dial"></div>Grave +2</div>
+        <div class="kn"><div class="dial v"></div>Volume</div>
+      </div>
+      <div class="keys">
+        <button class="key" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="key or" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button class="key" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+        <button class="key dk" aria-label="Répéter"><svg class="ic"><use href="#i-repeat"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span>Bibliothèque</span><span class="mono">2480 titres</span></div>
+      <div class="filters"><button aria-pressed="true">Titres</button><button aria-pressed="false">Albums</button><button aria-pressed="false">Artistes</button><button aria-pressed="false">Dossiers</button></div>
+      <div class="srch"><svg class="ic" style="width:16px;height:16px"><use href="#i-search"/></svg>bpm&gt;120 ton:8A</div>
+      <div class="tbl">
+        <div class="tr h"><span>Titre</span><span style="text-align:right">BPM</span><span style="text-align:right">Ton</span><span style="text-align:right">Durée</span></div>
+        <div class="tr now"><div><b>Minuit sur le quai</b><small>Lune Basse</small></div><span class="mono">124</span><span class="mono">8A</span><span class="mono">5:37</span></div>
+        <div class="tr"><div><b>Radio Nacre</b><small>Les Satellites</small></div><span class="mono">122</span><span class="mono">8A</span><span class="mono">4:02</span></div>
+        <div class="tr"><div><b>Néons</b><small>Kaelo</small></div><span class="mono">126</span><span class="mono">9A</span><span class="mono">3:48</span></div>
+        <div class="tr"><div><b>Côte Ouest</b><small>Maison Soleil</small></div><span class="mono">121</span><span class="mono">7A</span><span class="mono">6:15</span></div>
+        <div class="tr"><div><b>Après la fête</b><small>Vesper Club</small></div><span class="mono">125</span><span class="mono">8B</span><span class="mono">5:01</span></div>
+        <div class="tr"><div><b>Pluie d'été</b><small>Odette Moreau</small></div><span class="mono">123</span><span class="mono">8A</span><span class="mono">3:29</span></div>
+      </div>
+      <div class="strip"><div><b>Minuit sur le quai</b>Suivant compatible : Radio Nacre</div><button class="key or" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="hdr"><span>Jam en cours</span><span class="mono">hôte : toi</span></div>
+      <div class="code"><small>Code de session</small>7Q4-K2</div>
+      <div class="stats">
+        <div class="tile"><b class="mono" style="font-size:16px">12 ms</b><span>Écart max</span></div>
+        <div class="tile"><b class="mono" style="font-size:16px">140 ms</b><span>Réseau</span></div>
+        <div class="tile"><b class="mono" style="font-size:16px">+0,4 %</b><span>Correction</span></div>
+      </div>
+      <div class="ch">
+        <div class="chan"><div class="fader"><div class="track"><span style="top:30px"></span></div><div class="meter"><i></i></div></div><b>Toi</b><small>0 ms</small></div>
+        <div class="chan"><div class="fader"><div class="track"><span style="top:44px"></span></div><div class="meter"><i></i></div></div><b>Inès</b><small>8 ms</small></div>
+        <div class="chan"><div class="fader"><div class="track"><span style="top:24px"></span></div><div class="meter"><i></i></div></div><b>Malik</b><small>12 ms</small></div>
+        <div class="chan"><div class="fader"><div class="track"><span style="top:60px"></span></div><div class="meter"><i></i></div></div><b>Chloé</b><small>5 ms</small></div>
+      </div>
+      <div class="qC">
+        <div class="tr h"><span>À suivre</span><span style="text-align:right">Votes</span></div>
+        <div class="tr"><div><b>Radio Nacre</b><small>Inès</small></div><button class="vk mono" aria-label="Voter, 3 votes"><svg class="ic"><use href="#i-up"/></svg>3</button></div>
+        <div class="tr"><div><b>Néons</b><small>Malik</small></div><button class="vk mono" aria-label="Voter, 2 votes"><svg class="ic"><use href="#i-up"/></svg>2</button></div>
+      </div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= D ======================= -->
+<section class="dir dD" aria-labelledby="tD">
+  <div class="meta">
+    <div class="letter">Direction D</div>
+    <h2 id="tD">Paroles</h2>
+    <p>La typographie est l'interface. Les paroles prennent tout l'écran, les listes sont écrites en très grand, presque sans images.</p>
+    <ul>
+      <li>Karaoké natif : la ligne en cours se remplit au rythme du chant</li>
+      <li>Bibliothèque d'artistes en index géant, navigation A à Z</li>
+      <li>Jam orientée « on chante ensemble », avec un code facile à dire à voix haute</li>
+    </ul>
+    <div class="sw"><span style="background:#15123A"></span><span style="background:#F4DD72"></span><span style="background:#8D8AB8"></span><span style="background:#F4F2FF"></span></div>
+    <div class="fonts">Bricolage Grotesque, une seule famille</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><div class="cv cv-lune"></div><div><b>Minuit sur le quai</b>Lune Basse</div><button aria-label="Retirer des favoris"><svg class="ic"><use href="#i-heart"/></svg></button></div>
+      <div class="lyr">
+        <span class="past">On a laissé la ville</span>
+        <span class="past">tourner sans nous ce soir</span>
+        <span class="cur">les néons font des vagues</span>
+        <span class="next">sur le quai de la gare</span>
+        <span class="next">et si le train s'arrête</span>
+      </div>
+      <div class="foot">
+        <div class="pr"><i></i></div>
+        <div class="tm"><span>2:08</span><span>5:37</span></div>
+        <div class="ctrl">
+          <button aria-label="Aléatoire"><svg class="ic"><use href="#i-shuffle"/></svg></button>
+          <button aria-label="Précédent"><svg class="ic" style="width:28px;height:28px"><use href="#i-prev"/></svg></button>
+          <button class="pp" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+          <button aria-label="Suivant"><svg class="ic" style="width:28px;height:28px"><use href="#i-next"/></svg></button>
+          <button aria-label="File d'attente"><svg class="ic"><use href="#i-queue"/></svg></button>
+        </div>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="nav"><span>Titres</span><span>Albums</span><b>Artistes</b><span>Dossiers</span></div>
+      <div class="artists">
+        <div>Kaelo<sup>12</sup></div>
+        <div>Les Satellites<sup>28</sup></div>
+        <div class="hl">Lune Basse<sup>9</sup></div>
+        <div>Maison Soleil<sup>17</sup></div>
+        <div>Odette Moreau<sup>31</sup></div>
+        <div>Vesper Club<sup>6</sup></div>
+        <div class="az" aria-hidden="true"><span>A</span><span>C</span><span>F</span><b>K</b><b>L</b><b>M</b><span>N</span><b>O</b><span>R</span><span>S</span><b>V</b><span>Z</span></div>
+      </div>
+      <div class="miniD"><div class="cv cv-lune"></div><div><b>Minuit sur le quai</b>, les néons font des vagues</div><button aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="jamD">
+        <small>Code de la jam, à dire à voix haute</small>
+        <div class="code">lune 42</div>
+        <p><span>Inès, Malik et Chloé</span> écoutent avec toi, parfaitement synchronisés.</p>
+      </div>
+      <div class="qD">
+        <h4>À suivre, classé par votes</h4>
+        <div class="qi"><span class="n">1</span><div><b>Radio Nacre</b><small>Les Satellites, proposé par Inès</small></div><button class="v" aria-label="Voter, 3 votes">+3</button></div>
+        <div class="qi"><span class="n">2</span><div><b>Néons</b><small>Kaelo, proposé par Malik</small></div><button class="v" aria-label="Voter, 2 votes">+2</button></div>
+        <div class="qi"><span class="n">3</span><div><b>Côte Ouest</b><small>Maison Soleil, proposé par Chloé</small></div><button class="v" aria-label="Voter, 1 vote">+1</button></div>
+      </div>
+      <button class="ctaD"><svg class="ic"><use href="#i-plus"/></svg>Proposer un titre</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<script>
+(function(){
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Forme d'onde déterministe (direction C)
+  document.querySelectorAll('.wave[data-bars]').forEach(function(w){
+    var n = +w.dataset.bars, on = +w.dataset.on, seed = 7;
+    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    for (var i = 0; i < n; i++){
+      var env = Math.sin(Math.PI * i / n) * .6 + .35;
+      var b = document.createElement('i');
+      b.style.height = Math.max(6, Math.round((env * (.55 + rnd() * .45)) * 100)) + '%';
+      if (i < on) b.className = 'on';
+      w.appendChild(b);
+    }
+    if (!still) setInterval(function(){
+      on = (on + 1) % n;
+      w.querySelectorAll('i').forEach(function(b, i){ b.className = i < on ? 'on' : ''; });
+    }, 900);
+  });
+  // Niveaux des tranches de console (jam C)
+  var meters = document.querySelectorAll('.dC .meter i');
+  function tick(){ meters.forEach(function(m){ m.style.height = (25 + Math.random() * 65) + '%'; }); }
+  tick();
+  if (!still) setInterval(tick, 180);
+})();
+</script>
+</body>
+</html>

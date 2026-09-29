@@ -1,0 +1,133 @@
+rules_version = '2';
+
+// Règles de sécurité de Reaper.
+// Tout passe par un compte (connexion Google via Firebase Auth).
+//
+// users/{uid}                      profil public minimal, modifiable par son seul propriétaire
+// jams/{jamId}                     une jam : hôte, code, état de lecture, votes pour passer, options
+// jams/{jamId}/members/{uid}       participants : chacun gère sa propre fiche
+// jams/{jamId}/queue/{itemId}      file partagée : tout participant propose et vote
+// jams/{jamId}/libraries/{docId}   empreintes des bibliothèques (bibliothèque commune)
+// jams/{jamId}/reactions/{id}      réactions éphémères
+// jams/{jamId}/played/{id}         journal des titres passés (récap de fin), tenu par l'hôte
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function jam(jamId) {
+      return get(/databases/$(database)/documents/jams/$(jamId)).data;
+    }
+
+    function isHost(jamId) {
+      return signedIn() && jam(jamId).hostUid == request.auth.uid;
+    }
+
+    function isMember(jamId) {
+      return signedIn() && exists(/databases/$(database)/documents/jams/$(jamId)/members/$(request.auth.uid));
+    }
+
+    function memberPath(jamId, uid) {
+      return /databases/$(database)/documents/jams/$(jamId)/members/$(uid);
+    }
+
+    // L'hôte n'a plus donné signe de vie depuis [seconds] secondes (ou a quitté la jam).
+    function hostGone(jamId, seconds) {
+      let hostDoc = memberPath(jamId, jam(jamId).hostUid);
+      return !exists(hostDoc) || get(hostDoc).data.lastSeen < request.time - duration.value(seconds, 's');
+    }
+
+    function onlyChanged(keys) {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(keys);
+    }
+
+    // Seul l'uid de l'auteur apparaît ou disparaît de la liste.
+    function onlyOwnUidToggled(newList, oldList) {
+      return newList.toSet().difference(oldList.toSet())
+        .union(oldList.toSet().difference(newList.toSet()))
+        .hasOnly([request.auth.uid]);
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isSelf(uid)
+        && request.resource.data.keys().hasOnly(['displayName', 'photoUrl', 'createdAt', 'updatedAt']);
+      allow delete: if isSelf(uid);
+    }
+
+    match /jams/{jamId} {
+      // Lisible par tout compte connecté : on rejoint une jam en cherchant son code.
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.hostUid == request.auth.uid
+        && request.resource.data.code is string
+        && request.resource.data.code.size() >= 4 && request.resource.data.code.size() <= 8;
+
+      // L'hôte pilote tout ; il peut passer la main à un participant (« passer l'aux »).
+      allow update: if isHost(jamId)
+        && (request.resource.data.hostUid == resource.data.hostUid
+            || exists(memberPath(jamId, request.resource.data.hostUid)));
+
+      // Hôte absent depuis 90 s : un participant peut reprendre la main.
+      allow update: if isMember(jamId)
+        && hostGone(jamId, 90)
+        && request.resource.data.hostUid == request.auth.uid
+        && onlyChanged(['hostUid', 'hostName', 'playback', 'skipVotes']);
+
+      // Vote pour passer le titre en cours : chacun n'ajoute ou ne retire que son propre vote.
+      allow update: if isMember(jamId)
+        && onlyChanged(['skipVotes'])
+        && request.resource.data.skipVotes.key == resource.data.skipVotes.key
+        && onlyOwnUidToggled(request.resource.data.skipVotes.uids, resource.data.skipVotes.uids);
+
+      // Jam abandonnée (hôte absent depuis 10 min) : n'importe quel compte peut la fermer.
+      allow update: if signedIn()
+        && hostGone(jamId, 600)
+        && onlyChanged(['active'])
+        && request.resource.data.active == false;
+
+      allow delete: if isHost(jamId);
+
+      match /members/{uid} {
+        allow read: if isMember(jamId) || isHost(jamId);
+        allow create, update: if isSelf(uid);
+        // On quitte soi-même, ou l'hôte retire quelqu'un.
+        allow delete: if isSelf(uid) || isHost(jamId);
+      }
+
+      match /queue/{itemId} {
+        allow read: if isMember(jamId) || isHost(jamId);
+        allow create: if (isMember(jamId) || isHost(jamId))
+          && request.resource.data.addedBy == request.auth.uid;
+        allow update: if isHost(jamId)
+          || (isMember(jamId)
+            && onlyChanged(['votes'])
+            && onlyOwnUidToggled(request.resource.data.votes, resource.data.votes));
+        allow delete: if isHost(jamId) || resource.data.addedBy == request.auth.uid;
+      }
+
+      match /libraries/{docId} {
+        allow read: if isMember(jamId) || isHost(jamId);
+        allow create, update: if isMember(jamId) && request.resource.data.uid == request.auth.uid;
+        allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+      }
+
+      match /reactions/{reactionId} {
+        allow read: if isMember(jamId) || isHost(jamId);
+        allow create: if isMember(jamId) && request.resource.data.uid == request.auth.uid;
+        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isHost(jamId));
+      }
+
+      match /played/{entryId} {
+        allow read: if isMember(jamId) || isHost(jamId);
+        allow write: if isHost(jamId);
+      }
+    }
+  }
+}

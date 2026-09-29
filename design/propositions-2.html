@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecteur — directions E à J</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Doto:wght@400;700;900&family=Familjen+Grotesk:wght@400;600;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=Pixelify+Sans:wght@400;600&family=Rubik+Mono+One&family=Silkscreen&family=Space+Mono:wght@400;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--page:#E8E7EB;--page-ink:#1C1B22;--page-muted:#55535F;--page-line:#CFCDD6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--page-ink);font-family:"Instrument Sans",system-ui,sans-serif;line-height:1.5}
+a{color:#2F4FD0}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid #2F6BFF;outline-offset:3px}
+
+.intro{max-width:1320px;margin:0 auto;padding:56px 32px 8px}
+.intro h1{font-size:44px;line-height:1.05;margin:0 0 14px;font-weight:700;letter-spacing:-.02em}
+.intro p{max-width:66ch;margin:0 0 10px;color:var(--page-muted);font-size:17px}
+.research{max-width:1320px;margin:0 auto;padding:28px 32px 48px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 48px}
+.research h2{grid-column:1/-1;font-size:24px;margin:0}
+.research h3{font-size:16px;margin:0 0 6px}
+.research p,.research li{margin:0;color:#34323D;font-size:15px}
+.research ul{margin:0;padding-left:18px}
+.research li{margin-bottom:5px}
+.dir{max-width:1320px;margin:0 auto;padding:48px 32px;border-top:1px solid var(--page-line);display:grid;grid-template-columns:280px 1fr;gap:40px}
+.meta .letter{font-size:15px;font-weight:600;color:var(--page-muted)}
+.meta h2{font-size:34px;line-height:1.05;margin:4px 0 12px;letter-spacing:-.015em}
+.meta p{margin:0 0 14px;color:var(--page-muted);max-width:40ch}
+.meta ul{margin:0 0 16px;padding-left:18px;max-width:40ch}
+.meta li{margin-bottom:6px}
+.meta dl{margin:0 0 16px;font-size:14px;max-width:40ch}
+.meta dt{font-weight:600}
+.meta dd{margin:0 0 8px;color:var(--page-muted)}
+.sw{display:flex;gap:6px;margin-bottom:10px}
+.sw span{width:34px;height:34px;border-radius:8px;border:1px solid rgba(0,0,0,.12)}
+.fonts{font-size:14px;color:var(--page-muted)}
+.phones{display:flex;gap:36px;overflow-x:auto;padding:4px 4px 16px}
+figure{margin:0;flex:none}
+figcaption{text-align:center;margin-top:12px;font-weight:600;font-size:15px}
+.phone{width:300px;height:640px;border-radius:46px;padding:10px;background:#101014;box-shadow:0 30px 60px -30px rgba(20,18,40,.55),inset 0 0 0 2px #2a2a31}
+.screen{width:100%;height:100%;border-radius:36px;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.sources{max-width:1320px;margin:0 auto;padding:40px 32px 80px;border-top:1px solid var(--page-line);font-size:14px;color:var(--page-muted)}
+.sources h2{font-size:20px;color:var(--page-ink);margin:0 0 10px}
+.sources ul{columns:2;column-gap:40px;padding-left:18px;margin:0}
+.sources li{break-inside:avoid;margin-bottom:4px;overflow-wrap:anywhere}
+@media (max-width:900px){.dir,.research{grid-template-columns:1fr;gap:24px;padding:36px 16px}.intro{padding:40px 16px 8px}.intro h1{font-size:34px}.sources{padding:32px 16px 60px}.sources ul{columns:1}}
+
+.cv{flex:none;border-radius:6px}
+.cv-lune{background:radial-gradient(circle at 68% 32%,#F4DD72 0 17%,transparent 18%),linear-gradient(170deg,#2B4A83,#0F1733 70%)}
+.cv-sat{background:radial-gradient(circle,#1A0F33 0 14%,transparent 15%),repeating-linear-gradient(45deg,#FF7F6A 0 9px,#FFC7A6 9px 18px)}
+.cv-odette{background:radial-gradient(circle at 50% 55%,#C8553D 0 20%,transparent 21%),linear-gradient(#7FA88B 0 55%,#E9D8B4 55%)}
+.cv-kaelo{background:conic-gradient(from 90deg,#BFA8FF,#3A1E6E,#FF7F6A,#BFA8FF)}
+.cv-soleil{background:radial-gradient(circle at 50% 100%,#FFB13B 0 34%,#FF5A1F 35% 50%,#FFE6C4 51%)}
+.cv-vesper{background:linear-gradient(135deg,#1b1b1b 0 50%,#2F6BFF 50%)}
+
+/* ============ E — Tableau ============ */
+.dE .screen{background:#000;color:#fff;font-family:"Space Mono",monospace}
+.dE .doto{font-family:"Doto",monospace}
+.dE .live{width:8px;height:8px;border-radius:50%;background:#D71921;display:inline-block;flex:none}
+.dE .top{display:flex;justify-content:space-between;align-items:center;padding:22px 20px 0;font-size:11px;color:#8E8E93}
+.dE .top span{display:flex;align-items:center;gap:6px}
+.dE canvas.dots{display:block;margin:16px auto 0;width:220px;height:220px}
+.dE .ttl{padding:18px 20px 0}
+.dE .ttl h3{margin:0;font-size:31px;line-height:1;font-weight:900}
+.dE .ttl p{margin:6px 0 0;font-size:12px;color:#8E8E93}
+.dE .seek{display:flex;gap:4px;padding:18px 20px 0;align-items:center}
+.dE .seek i{width:5px;height:5px;border-radius:50%;background:#3A3A3C}
+.dE .seek i.on{background:#fff}
+.dE .seek i.now{background:#D71921;width:8px;height:8px}
+.dE .tm{display:flex;justify-content:space-between;padding:6px 20px 0;font-size:16px;font-weight:700}
+.dE .ctrl{display:flex;justify-content:center;align-items:center;gap:22px;padding:16px 0 0}
+.dE .ctrl .o{width:52px;height:52px;border-radius:50%;border:1.5px solid #fff;display:grid;place-items:center}
+.dE .ctrl .pl{width:72px;height:72px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center}
+.dE .links{display:flex;justify-content:space-around;padding:18px 20px 0;font-size:12px;color:#8E8E93}
+.dE .links b{color:#fff;font-weight:400}
+.dE .head{padding:24px 20px 0}
+.dE .head h3{margin:0;font-size:32px;font-weight:900;line-height:1}
+.dE .tabs{display:flex;gap:6px;padding:14px 20px 0;font-size:12px}
+.dE .tabs button{padding:5px 12px;border-radius:999px;border:1px solid #3A3A3C;color:#8E8E93}
+.dE .tabs button[aria-pressed=true]{background:#fff;color:#000;border-color:#fff}
+.dE .tt{padding:14px 20px 0;font-size:12px;flex:1}
+.dE .tr{display:grid;grid-template-columns:12px 1fr 44px;gap:8px;padding:9px 0;border-bottom:1px dotted #3A3A3C;align-items:center}
+.dE .tr.h{color:#8E8E93;font-size:11px;border-bottom:1px solid #3A3A3C}
+.dE .tr small{display:block;color:#8E8E93;font-size:11px}
+.dE .tr span:last-child{text-align:right}
+.dE .mini{margin:0 14px 14px;border-top:1px dotted #8E8E93;padding:12px 6px 0;display:flex;align-items:center;gap:10px;font-size:12px}
+.dE .mini div{flex:1}
+.dE .code{padding:6px 20px 0}
+.dE .code small{font-size:11px;color:#8E8E93}
+.dE .code div{font-size:72px;font-weight:900;line-height:1;letter-spacing:.04em}
+.dE .ticker{margin:16px 0 0;background:#1C1C1E;overflow:hidden;white-space:nowrap;font-size:12px;padding:8px 0}
+.dE .ticker span{display:inline-block;padding-left:100%;animation:tick 14s linear infinite}
+@keyframes tick{to{transform:translateX(-100%)}}
+.dE .dep{padding:14px 20px 0;font-size:12px;flex:1}
+.dE .dep .tr{grid-template-columns:44px 1fr 30px}
+.dE .dep .t{font-family:"Doto";font-weight:900;font-size:16px}
+.dE .cta{margin:0 20px 20px;padding:13px;border-radius:999px;border:1.5px solid #fff;text-align:center;font-size:13px}
+
+/* ============ F — Poche 1-bit ============ */
+.dF .screen{background:#B1AFA8;color:#312F28;font-family:"Pixelify Sans",sans-serif}
+.dF .sk{font-family:"Silkscreen",monospace}
+.dF .bar{margin:22px 14px 0;height:22px;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(#312F28 0 2px,transparent 2px 4px);border:2px solid #312F28}
+.dF .bar span{background:#B1AFA8;padding:0 8px;font-family:"Silkscreen";font-size:12px}
+.dF canvas{image-rendering:pixelated;display:block}
+.dF .art{margin:18px auto 0;width:200px;height:200px;border:2px solid #312F28;box-shadow:5px 5px 0 #312F28}
+.dF .ttl{padding:20px 20px 0}
+.dF .ttl h3{margin:0;font-size:17px;font-family:"Silkscreen";line-height:1.15;font-weight:400}
+.dF .ttl p{margin:4px 0 0;font-size:14px}
+.dF .seg{display:flex;gap:3px;padding:14px 20px 0}
+.dF .seg i{flex:1;height:10px;border:2px solid #312F28}
+.dF .seg i.on{background:#312F28}
+.dF .tm{display:flex;justify-content:space-between;padding:4px 20px 0;font-size:13px}
+.dF .row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 0}
+.dF .pb{width:48px;height:44px;border:2px solid #312F28;background:#C9C7C0;box-shadow:3px 3px 0 #312F28;display:grid;place-items:center}
+.dF .pb.main{background:#312F28;color:#B1AFA8}
+.dF .crank{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px}
+.dF .wheel{width:52px;height:52px;border-radius:50%;border:2px solid #312F28;position:relative;background:#C9C7C0;animation:crank 2s steps(8) infinite}
+.dF .wheel::after{content:"";position:absolute;width:10px;height:10px;border:2px solid #312F28;background:#FFC833;border-radius:50%;top:2px;left:18px}
+@keyframes crank{to{transform:rotate(360deg)}}
+.dF .list{margin:12px 14px 0;border:2px solid #312F28;flex:1;overflow:hidden;position:relative;padding-right:14px;background:#BDBBB4}
+.dF .li{display:flex;align-items:center;gap:10px;padding:7px 8px;font-size:14px;line-height:1.2}
+.dF .li small{display:block;font-size:12px}
+.dF .li canvas{width:32px;height:32px;border:2px solid currentColor}
+.dF .li.sel{background:#312F28;color:#B1AFA8}
+.dF .sb{position:absolute;right:0;top:0;bottom:0;width:12px;border-left:2px solid #312F28;background:repeating-linear-gradient(45deg,#312F28 0 1px,transparent 1px 4px)}
+.dF .sb i{position:absolute;left:0;right:0;top:20px;height:60px;background:#B1AFA8;border-top:2px solid #312F28;border-bottom:2px solid #312F28}
+.dF .hint{padding:10px 14px 16px;font-size:12px;text-align:center}
+.dF .stage{margin:16px 14px 0;height:120px;border:2px solid #312F28;position:relative;background:repeating-linear-gradient(90deg,transparent 0 3px,rgba(49,47,40,.15) 3px 4px)}
+.dF .floor{position:absolute;left:0;right:0;bottom:22px;border-top:2px solid #312F28}
+.dF .sp{position:absolute;bottom:24px;display:flex;flex-direction:column;align-items:center;animation:bob .48s steps(2) infinite}
+.dF .sp:nth-child(2){animation-delay:-.24s}
+.dF .sp canvas{width:36px;height:36px}
+.dF .sp span{position:absolute;top:44px;font-size:11px;white-space:nowrap}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.dF .dlg{margin:14px 14px 0;border:2px solid #312F28;background:#C9C7C0;box-shadow:4px 4px 0 #312F28;padding:10px;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dF .dlg button{border:2px solid #312F28;padding:2px 10px;font-family:"Silkscreen";font-size:11px}
+.dF .qF{padding:12px 14px 0;flex:1}
+.dF .qF .li{border-bottom:2px dotted #312F28;padding:8px 2px}
+.dF .qF .li div{flex:1}
+.dF .v{font-family:"Silkscreen";font-size:12px;border:2px solid #312F28;padding:2px 6px}
+
+/* ============ G — Riso ============ */
+.dG .screen{background:radial-gradient(rgba(49,40,30,.07) 1px,transparent 1.2px) 0 0/5px 5px,#F2EDE4;color:#3255A4;font-family:"Familjen Grotesk",sans-serif}
+.dG .rm{font-family:"Rubik Mono One",sans-serif;font-weight:400}
+.dG .ov{position:relative;color:#3255A4}
+.dG .ov::after{content:attr(data-t);position:absolute;left:-3px;top:-2px;width:100%;color:#FF48B0;mix-blend-mode:multiply;animation:reg .484s steps(1) infinite}
+@keyframes reg{50%{transform:translate(1px,1px)}}
+.dG .poster{position:relative;margin:26px auto 0;width:224px;height:224px;background:#F2EDE4;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.dG .poster .dotsB{position:absolute;inset:0;background:radial-gradient(circle,#3255A4 1.7px,transparent 2px) 0 0/6px 6px;-webkit-mask:linear-gradient(to bottom,#000 10%,rgba(0,0,0,.15) 75%);mask:linear-gradient(to bottom,#000 10%,rgba(0,0,0,.15) 75%)}
+.dG .poster .moon{position:absolute;width:96px;height:96px;border-radius:50%;left:104px;top:26px;background:#FF48B0;mix-blend-mode:multiply;animation:reg .484s steps(1) infinite}
+.dG .poster .band{position:absolute;left:0;right:0;bottom:0;height:70px;background:radial-gradient(circle,#FF48B0 2px,transparent 2.4px) 0 0/7px 7px;mix-blend-mode:multiply}
+.dG .poster .lbl{position:absolute;left:12px;bottom:14px;font-size:20px;color:#3255A4;line-height:1}
+.dG .tape{position:absolute;width:70px;height:22px;background:rgba(255,232,0,.6);mix-blend-mode:multiply}
+.dG .ttl{padding:22px 22px 0}
+.dG .ttl h3{margin:0;font-size:22px;line-height:1.1}
+.dG .ttl p{margin:6px 0 0;font-size:14px;font-weight:600}
+.dG .prog{display:flex;align-items:center;gap:8px;padding:16px 22px 0;font-size:12px;font-weight:700}
+.dG .prog div{flex:1;height:0;border-top:2px dashed #3255A4;position:relative}
+.dG .prog div i{position:absolute;left:0;top:-4px;height:6px;width:38%;background:#FF48B0;mix-blend-mode:multiply}
+.dG .ctrl{display:flex;justify-content:center;align-items:center;gap:24px;padding:18px 0 0}
+.dG .st{width:52px;height:52px;border-radius:50%;border:2.5px solid #3255A4;display:grid;place-items:center}
+.dG .st.big{width:74px;height:74px;background:#FF48B0;border:0;color:#3255A4;mix-blend-mode:multiply}
+.dG .head{padding:24px 20px 0}
+.dG .head h3{margin:0;font-size:26px;line-height:1}
+.dG .collage{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;padding:22px 20px 0;overflow:hidden}
+.dG .card{background:#fff;padding:6px 6px 8px;box-shadow:1px 2px 0 rgba(50,40,30,.15);position:relative}
+.dG .card .cv{aspect-ratio:1;width:100%;border-radius:0;position:relative;overflow:hidden}
+.dG .card .cv::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 1.3px,rgba(242,237,228,.85) 1.8px) 0 0/5px 5px}
+.dG .card b{display:block;font-size:13px;margin-top:5px;color:#3255A4}
+.dG .card small{font-size:11px;color:#FF48B0;font-weight:700}
+.dG .card::before{content:"";position:absolute;top:-4px;left:50%;width:20px;height:5px;margin-left:-10px;border:1.5px solid #8a8680;border-bottom:0}
+.dG .flyer{padding:22px 20px 0}
+.dG .flyer .big{font-size:72px;line-height:.9}
+.dG .flyer p{margin:10px 0 0;font-size:16px;font-weight:700;line-height:1.25}
+.dG .flyer p span{color:#FF48B0}
+.dG .qG{padding:16px 20px 0;flex:1;display:flex;flex-direction:column;gap:10px}
+.dG .qG .it{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #3255A4;padding-bottom:6px}
+.dG .qG b{font-size:15px}
+.dG .qG small{display:block;font-size:12px;font-weight:600}
+.dG .tally{color:#FF48B0;font-size:18px;letter-spacing:-1px;font-weight:700}
+.dG .tabsG{display:flex;border-top:2px dashed #3255A4;margin-top:auto}
+.dG .tabsG span{flex:1;height:78px;border-right:2px dashed #3255A4;writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.dG .tabsG span:last-child{border-right:0}
+
+/* ============ H — Rave ============ */
+.dH .screen{background:#000;color:#fff;font-family:"Syne",sans-serif}
+.dH .an{font-family:"Anton",sans-serif;font-weight:400}
+.dH .chk{height:14px;background:conic-gradient(#fff 25%,#000 0 50%,#fff 0 75%,#000 0) 0 0/14px 14px;flex:none}
+.dH .top{display:flex;justify-content:space-between;padding:18px 18px 10px;font-size:12px;font-weight:700}
+.dH .top .bpm{color:#C6FF00}
+.dH .stack{padding:6px 12px 0;overflow:hidden;flex:1}
+.dH .stack div{font-size:66px;line-height:.88;letter-spacing:-.01em;text-transform:uppercase;animation:kick .484s cubic-bezier(.2,.8,.2,1) infinite;transform-origin:left center}
+.dH .stack .o{color:transparent;-webkit-text-stroke:1.4px #fff}
+.dH .stack .c{background:linear-gradient(180deg,#fff 0%,#9a9a9a 45%,#fff 55%,#5e5e5e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dH .stack .p{color:#FF2E88}
+@keyframes kick{0%{transform:scaleX(1.06)}100%{transform:scaleX(1)}}
+.dH .sub{padding:8px 18px 0;font-size:15px;font-weight:700}
+.dH .sub span{color:#C6FF00}
+.dH .prog{margin:14px 18px 0;height:6px;background:#2a2a2a;position:relative}
+.dH .prog i{position:absolute;inset:0 62% 0 0;background:#C6FF00}
+.dH .ctrl{display:flex;align-items:center;gap:10px;padding:16px 18px 18px}
+.dH .ctrl .sq{width:54px;height:54px;border:2px solid #fff;display:grid;place-items:center}
+.dH .ctrl .pp{flex:1;height:54px;background:#FF2E88;color:#000;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15px}
+.dH .lu{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:0 12px;line-height:.95;text-transform:uppercase}
+.dH .lu small{font-family:"Syne";font-size:12px;text-transform:none;color:#bdbdbd;margin-bottom:8px}
+.dH .miniH{display:flex;align-items:center;gap:10px;background:#6B2BFF;padding:12px 16px;font-size:12px}
+.dH .miniH div{flex:1}
+.dH .floor{padding:6px 16px 0;flex:1;display:flex;flex-direction:column;justify-content:center;line-height:.9;text-transform:uppercase}
+.dH .floor div{display:flex;align-items:baseline;justify-content:space-between}
+.dH .floor small{font-family:"Syne";font-size:12px;font-weight:700;color:#C6FF00;text-transform:none}
+.dH .qH{background:#6B2BFF;padding:12px 16px 16px;font-size:13px}
+.dH .qH h4{margin:0 0 6px;font-size:12px}
+.dH .qH .it{display:flex;justify-content:space-between;padding:5px 0;border-top:1px solid rgba(255,255,255,.25)}
+.dH .qH b{font-weight:800}
+
+/* ============ I — Oscillo ============ */
+.dI .screen{background:#050805;color:#33FF66;font-family:"IBM Plex Mono",monospace}
+.dI .top{display:flex;justify-content:space-between;padding:22px 18px 0;font-size:11px;color:#7FD99A}
+.dI canvas.scope{display:block;margin:12px auto 0;width:248px;height:248px;border:1px solid #0F5A28;border-radius:6px}
+.dI .ttl{padding:16px 18px 0}
+.dI .ttl h3{margin:0;font-size:19px;font-weight:600;text-shadow:0 0 8px rgba(51,255,102,.6)}
+.dI .ttl p{margin:4px 0 0;font-size:12px;color:#7FD99A}
+.dI .rd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:12px 18px 0}
+.dI .rd div{border:1px solid #0F5A28;border-radius:4px;padding:6px}
+.dI .rd b{display:block;font-size:14px}
+.dI .rd span{font-size:10px;color:#7FD99A}
+.dI .ctrl{display:flex;justify-content:center;gap:14px;padding:16px 0 0}
+.dI .ctrl button{width:56px;height:48px;border:1px solid #33FF66;border-radius:4px;display:grid;place-items:center;box-shadow:0 0 10px rgba(51,255,102,.25)}
+.dI .ctrl .on{background:#33FF66;color:#050805}
+.dI .head{padding:22px 18px 0;font-size:20px;font-weight:600;text-shadow:0 0 8px rgba(51,255,102,.5)}
+.dI .head small{display:block;font-size:11px;color:#7FD99A;font-weight:400;text-shadow:none}
+.dI .rows{padding:12px 14px 0;display:flex;flex-direction:column;gap:8px;flex:1;overflow:hidden}
+.dI .ri{display:flex;gap:10px;align-items:center;font-size:12px;padding:6px;border:1px solid #0F5A28;border-radius:4px}
+.dI .ri.now{border-color:#33FF66;box-shadow:0 0 12px rgba(51,255,102,.25)}
+.dI .ri canvas{width:64px;height:36px;border-radius:2px;flex:none}
+.dI .ri div{flex:1;line-height:1.3}
+.dI .ri small{display:block;color:#7FD99A;font-size:11px}
+.dI canvas.sync{display:block;margin:12px auto 0;width:248px;height:200px;border:1px solid #0F5A28;border-radius:6px}
+.dI .leg{padding:10px 18px 0;display:flex;flex-direction:column;gap:5px;font-size:12px}
+.dI .leg div{display:flex;align-items:center;gap:8px}
+.dI .leg i{width:14px;height:3px;border-radius:2px}
+.dI .leg span{margin-left:auto;color:#7FD99A}
+.dI .ok{margin:12px 18px 0;padding:8px 10px;border:1px solid #33FF66;border-radius:4px;font-size:12px}
+.dI .qI{padding:12px 18px 0;font-size:12px}
+.dI .qI div{display:flex;justify-content:space-between;padding:6px 0;border-top:1px dashed #0F5A28}
+
+/* ============ J — Catalogue ============ */
+.dJ .screen{background:#FAFAF7;color:#111;font-family:"Geist",sans-serif}
+.dJ .gm{font-family:"Geist Mono",monospace}
+.dJ .top{display:flex;justify-content:space-between;padding:24px 22px 0;font-size:11px;color:#5B6770}
+.dJ .sleeve{display:flex;gap:14px;padding:20px 22px 0;align-items:flex-end}
+.dJ .sleeve .cv{width:112px;height:112px;border-radius:0}
+.dJ .sleeve div{font-size:12px;color:#5B6770;line-height:1.4}
+.dJ .ttl{padding:22px 22px 0}
+.dJ .ttl h3{margin:0;font-size:30px;font-weight:300;line-height:1.05;letter-spacing:-.02em}
+.dJ .ttl p{margin:6px 0 0;font-size:14px}
+.dJ dl.spec{margin:20px 22px 0;display:grid;grid-template-columns:86px 1fr;font-size:12px;row-gap:0}
+.dJ .spec dt,.dJ .spec dd{margin:0;padding:6px 0;border-top:1px solid #E2E2DC}
+.dJ .spec dt{color:#6B6B66}
+.dJ .prog{margin:18px 22px 0;height:1px;background:#D8D8D2;position:relative}
+.dJ .prog i{position:absolute;left:0;top:-1px;height:3px;width:38%;background:#111}
+.dJ .tm{display:flex;justify-content:space-between;padding:6px 22px 0;font-size:11px;color:#6B6B66}
+.dJ .ctrl{display:flex;justify-content:space-between;align-items:center;padding:14px 40px 0}
+.dJ .ctrl .ic{stroke-width:1.3}
+.dJ .ctrl .pp{width:58px;height:58px;border:1px solid #111;border-radius:50%;display:grid;place-items:center}
+.dJ .head{padding:26px 22px 0}
+.dJ .head h3{margin:0;font-size:26px;font-weight:300;letter-spacing:-.02em}
+.dJ .head p{margin:4px 0 0;font-size:12px;color:#6B6B66}
+.dJ .sort{display:flex;gap:14px;padding:14px 22px 0;font-size:12px;color:#6B6B66}
+.dJ .sort b{color:#111;font-weight:500;border-bottom:1px solid #111}
+.dJ .cat{padding:12px 22px 0;flex:1;overflow:hidden}
+.dJ .ce{display:grid;grid-template-columns:52px 1fr 36px;gap:8px;padding:10px 0;border-top:1px solid #E2E2DC;font-size:13px;align-items:baseline}
+.dJ .ce .gm{font-size:11px;color:#5B6770}
+.dJ .ce small{display:block;font-size:11px;color:#6B6B66}
+.dJ .ce.now{color:#5B6770}
+.dJ .ce.now b{font-weight:500;color:#111}
+.dJ .ce b{font-weight:400}
+.dJ .log{padding:16px 22px 0;flex:1}
+.dJ .le{display:grid;grid-template-columns:40px 1fr;gap:8px;padding:9px 0;border-top:1px solid #E2E2DC;font-size:13px}
+.dJ .le small{display:block;font-size:11px;color:#6B6B66}
+.dJ .le.now{background:#EEF0F1;margin:0 -8px;padding:9px 8px}
+.dJ .btn{margin:0 22px 22px;padding:12px;border:1px solid #111;text-align:center;font-size:13px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14"/><path d="M19 5L9 12l10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14"/><path d="M5 5l10 7-10 7z" fill="currentColor"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+</svg>
+
+<header class="intro">
+  <h1>Lecteur, six nouvelles directions</h1>
+  <p>Ces directions s'appuient sur des recherches plus poussées : les lecteurs de musique reconnus, les tendances graphiques actuelles et ce qu'Android et Compose permettent vraiment en 2026. Elles s'ajoutent aux directions A à D de la <a href="propositions.html">première page</a>.</p>
+  <p>Pour chaque direction, j'indique l'effort de réalisation dans Compose pour un développeur seul.</p>
+</header>
+
+<section class="research" aria-labelledby="rt">
+  <h2 id="rt">Ce que la recherche a montré</h2>
+  <div>
+    <h3>Ce qui fait daté aujourd'hui</h3>
+    <ul>
+      <li>Le fond flou tiré de la pochette avec des cartes givrées : on le voit partout (Plexamp, Liquid Glass d'Apple). Ça fragilise la direction B.</li>
+      <li>Le vinyle qui tourne, les fausses barres d'égaliseur, les dégradés violet-rose. Ça fragilise la direction A telle quelle.</li>
+      <li>Le clone de Spotify : fond gris foncé, accent vert, carrousels horizontaux empilés.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Material 3 Expressive, le nouveau langage de Google</h3>
+    <ul>
+      <li>Sorti en 2025 : barres de progression ondulées, formes qui se transforment, animations à ressort.</li>
+      <li>Utilisé tel quel, le lecteur ressemble au nouveau YouTube Music. Il faut le personnaliser.</li>
+      <li>Côté code, ses composants sont encore en alpha (material3 1.5.0), avec des changements d'API à prévoir.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>Une leçon à retenir</h3>
+    <p>En 2026, Tidal a refait son lecteur en cachant les contrôles derrière un tap et en retirant l'indication « Lecture depuis… ». Les utilisateurs ont vivement protesté. Il faut garder les contrôles et le contexte visibles, quelle que soit la direction.</p>
+  </div>
+  <div>
+    <h3>Pour la jam, quelle que soit la direction</h3>
+    <ul>
+      <li>Rejoindre par QR code, par lien ou automatiquement sur le même Wi-Fi, comme Spotify Jam.</li>
+      <li>Afficher qui a ajouté chaque titre, et une file équitable qui alterne entre les participants.</li>
+      <li>Permissions de l'hôte, badge de synchro visible, récap de session partageable.</li>
+      <li>Des avatars qui bougent quand on vote (Turntable) ; un « DJ maison » qui remplit la file quand elle se vide (Plexamp).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= E ======================= -->
+<section class="dir dE" aria-labelledby="tE">
+  <div class="meta">
+    <div class="letter">Direction E</div>
+    <h2 id="tE">Tableau</h2>
+    <p>Un tableau des départs en gare, en points lumineux. Noir et blanc strict, avec un seul rouge réservé à ce qui se passe maintenant.</p>
+    <ul>
+      <li>Pochette redessinée en matrice de points, barre de progression en points</li>
+      <li>La file de la jam affichée comme des horaires de départ</li>
+      <li>Un bandeau défilant annonce qui a ajouté ou voté quoi</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Nothing OS et sa police Ndot, afficheurs de gare</dd><dt>Effort Compose</dt><dd>Faible à moyen : dessin Canvas et police variable</dd></dl>
+    <div class="sw"><span style="background:#000"></span><span style="background:#fff"></span><span style="background:#8E8E93"></span><span style="background:#D71921"></span></div>
+    <div class="fonts">Doto (matrice de points), Space Mono</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span><i class="live"></i>En lecture</span><span>Plage 3 sur 9</span></div>
+      <canvas class="dots" width="440" height="440" data-cover="lune" role="img" aria-label="Pochette en points"></canvas>
+      <div class="ttl"><h3 class="doto">Minuit sur le quai</h3><p>Lune Basse, Quai Nord</p></div>
+      <div class="seek" data-n="26" data-at="10"></div>
+      <div class="tm doto"><span>02:08</span><span>05:37</span></div>
+      <div class="ctrl">
+        <button class="o" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="pl" aria-label="Pause"><svg class="ic" style="width:28px;height:28px"><use href="#i-pause"/></svg></button>
+        <button class="o" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+      <div class="links"><b>Paroles</b><span>File</span><span>Jam</span></div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3 class="doto">Bibliothèque</h3></div>
+      <div class="tabs"><button aria-pressed="true">Titres</button><button aria-pressed="false">Albums</button><button aria-pressed="false">Artistes</button></div>
+      <div class="tt">
+        <div class="tr h"><span></span><span>Titre, artiste</span><span>Durée</span></div>
+        <div class="tr"><span></span><span>Après la fête<small>Vesper Club</small></span><span>5:01</span></div>
+        <div class="tr"><span></span><span>Côte Ouest<small>Maison Soleil</small></span><span>6:15</span></div>
+        <div class="tr"><i class="live"></i><span>Minuit sur le quai<small>Lune Basse</small></span><span>5:37</span></div>
+        <div class="tr"><span></span><span>Néons<small>Kaelo</small></span><span>3:48</span></div>
+        <div class="tr"><span></span><span>Pluie d'été<small>Odette Moreau</small></span><span>3:29</span></div>
+        <div class="tr"><span></span><span>Radio Nacre<small>Les Satellites</small></span><span>4:02</span></div>
+      </div>
+      <div class="mini"><i class="live"></i><div>Minuit sur le quai</div><button aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span><i class="live"></i>En direct</span><span>4 à l'écoute</span></div>
+      <div class="code"><small>Code de la jam</small><div class="doto">K7Q2</div></div>
+      <div class="ticker"><span>Inès a ajouté Radio Nacre, Malik a voté pour Néons, Chloé a rejoint la jam</span></div>
+      <div class="dep">
+        <div class="tr h"><span>Prévu</span><span>Titre, proposé par</span><span>Votes</span></div>
+        <div class="tr"><span class="t">22:41</span><span>Radio Nacre<small>Inès</small></span><span>+3</span></div>
+        <div class="tr"><span class="t">22:45</span><span>Néons<small>Malik</small></span><span>+2</span></div>
+        <div class="tr"><span class="t">22:49</span><span>Côte Ouest<small>Chloé</small></span><span>+1</span></div>
+      </div>
+      <button class="cta">Proposer un titre</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= F ======================= -->
+<section class="dir dF" aria-labelledby="tF">
+  <div class="meta">
+    <div class="letter">Direction F</div>
+    <h2 id="tF">Poche 1-bit</h2>
+    <p>Une console portable des années 80 : écran gris sans rétroéclairage, tout en deux tons, y compris les pochettes, tramées pixel par pixel.</p>
+    <ul>
+      <li>Pochettes converties en trame 1-bit en direct</li>
+      <li>Une « manivelle » pour avancer dans le morceau, avec des crans en retour haptique</li>
+      <li>En jam, les amis sont des petits personnages en pixels qui dansent sur le tempo</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Playdate de Panic, premiers Macintosh</dd><dt>Effort Compose</dt><dd>Moyen : shader AGSL de tramage (Android 13+), version fixe en dessous</dd></dl>
+    <div class="sw"><span style="background:#B1AFA8"></span><span style="background:#312F28"></span><span style="background:#C9C7C0"></span><span style="background:#FFC833"></span></div>
+    <div class="fonts">Silkscreen, Pixelify Sans</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="bar"><span>Lecture</span></div>
+      <canvas class="art dith" width="100" height="100" data-cover="lune" role="img" aria-label="Pochette tramée"></canvas>
+      <div class="ttl"><h3>Minuit sur le quai</h3><p>Lune Basse, Quai Nord</p></div>
+      <div class="seg" data-n="16" data-at="6"></div>
+      <div class="tm"><span>2:08</span><span>5:37</span></div>
+      <div class="row">
+        <button class="pb" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="pb main" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button class="pb" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+        <div class="crank"><div class="wheel"></div>Manivelle</div>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="bar"><span>Bibliothèque</span></div>
+      <div class="list">
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="vesper"></canvas><div>Après la fête<small>Vesper Club</small></div></div>
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="soleil"></canvas><div>Côte Ouest<small>Maison Soleil</small></div></div>
+        <div class="li sel"><canvas class="dith" width="16" height="16" data-cover="lune"></canvas><div>Minuit sur le quai<small>Lune Basse</small></div></div>
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="kaelo"></canvas><div>Néons<small>Kaelo</small></div></div>
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="odette"></canvas><div>Pluie d'été<small>Odette Moreau</small></div></div>
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="sat"></canvas><div>Radio Nacre<small>Les Satellites</small></div></div>
+        <div class="li"><canvas class="dith" width="16" height="16" data-cover="lune"></canvas><div>Sans toi<small>Lune Basse</small></div></div>
+        <div class="sb"><i></i></div>
+      </div>
+      <div class="hint">Appui long pour ajouter à la file</div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="bar"><span>Jam</span></div>
+      <div class="stage">
+        <div class="sp" style="left:14px"><canvas class="sprite" width="12" height="12" data-s="0"></canvas><span>Toi</span></div>
+        <div class="sp" style="left:76px"><canvas class="sprite" width="12" height="12" data-s="1"></canvas><span>Inès</span></div>
+        <div class="sp" style="left:138px"><canvas class="sprite" width="12" height="12" data-s="2"></canvas><span>Malik</span></div>
+        <div class="sp" style="left:200px"><canvas class="sprite" width="12" height="12" data-s="3"></canvas><span>Chloé</span></div>
+        <div class="floor"></div>
+      </div>
+      <div class="dlg"><span>Inès a ajouté Radio Nacre</span><button>OK</button></div>
+      <div class="qF">
+        <div class="li"><div>Radio Nacre<small>par Inès</small></div><button class="v" aria-label="Voter, 3 votes">+3</button></div>
+        <div class="li"><div>Néons<small>par Malik</small></div><button class="v" aria-label="Voter, 2 votes">+2</button></div>
+        <div class="li"><div>Côte Ouest<small>par Chloé</small></div><button class="v" aria-label="Voter, 1 vote">+1</button></div>
+      </div>
+      <div class="hint">Code de la jam : <b class="sk">K7Q2</b></div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= G ======================= -->
+<section class="dir dG" aria-labelledby="tG">
+  <div class="meta">
+    <div class="letter">Direction G</div>
+    <h2 id="tG">Riso</h2>
+    <p>Chaque écran ressemble à une affiche de concert imprimée en risographie : deux encres qui se superposent, trames de points, ruban adhésif, léger décalage d'impression.</p>
+    <ul>
+      <li>Pochettes converties en trame deux couleurs, qui se décalent un peu sur le temps fort</li>
+      <li>Bibliothèque en collage de pochettes agrafées</li>
+      <li>La jam est un flyer, avec des languettes à détacher qui portent le code</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Encres Riso (rose fluo, bleu moyen), affiches de concerts DIY</dd><dt>Effort Compose</dt><dd>Moyen : shader de trame et mode de fusion « multiply »</dd></dl>
+    <div class="sw"><span style="background:#F2EDE4"></span><span style="background:#3255A4"></span><span style="background:#FF48B0"></span><span style="background:#FFE800"></span></div>
+    <div class="fonts">Rubik Mono One, Familjen Grotesk</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="poster">
+        <div class="dotsB"></div><div class="moon"></div><div class="band"></div>
+        <div class="lbl rm">Quai<br>Nord</div>
+      </div>
+      <span class="tape" style="left:28px;top:18px;transform:rotate(-14deg)"></span>
+      <span class="tape" style="right:28px;top:232px;transform:rotate(-8deg)"></span>
+      <div class="ttl"><h3 class="rm ov" data-t="Minuit sur le quai">Minuit sur le quai</h3><p>Lune Basse</p></div>
+      <div class="prog"><span>2:08</span><div><i></i></div><span>5:37</span></div>
+      <div class="ctrl">
+        <button class="st" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="st big" aria-label="Pause"><svg class="ic" style="width:30px;height:30px"><use href="#i-pause"/></svg></button>
+        <button class="st" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3 class="rm ov" data-t="Mes disques">Mes disques</h3></div>
+      <div class="collage">
+        <div class="card" style="transform:rotate(-3deg)"><div class="cv cv-lune"></div><b>Quai Nord</b><small>Lune Basse</small></div>
+        <div class="card" style="transform:rotate(2.5deg)"><div class="cv cv-sat"></div><b>Radio Nacre</b><small>Les Satellites</small></div>
+        <div class="card" style="transform:rotate(1.5deg)"><div class="cv cv-odette"></div><b>Pluie d'été</b><small>Odette Moreau</small></div>
+        <div class="card" style="transform:rotate(-2deg)"><div class="cv cv-kaelo"></div><b>Néons</b><small>Kaelo</small></div>
+      </div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="flyer">
+        <div class="big rm ov" data-t="Jam!">Jam!</div>
+        <p>Ce soir chez toi, avec <span>Inès, Malik et Chloé</span></p>
+      </div>
+      <div class="qG">
+        <div class="it"><div><b>Radio Nacre</b><small>ajouté par Inès</small></div><span class="tally" aria-label="3 votes">|||</span></div>
+        <div class="it"><div><b>Néons</b><small>ajouté par Malik</small></div><span class="tally" aria-label="2 votes">||</span></div>
+        <div class="it"><div><b>Côte Ouest</b><small>ajouté par Chloé</small></div><span class="tally" aria-label="1 vote">|</span></div>
+      </div>
+      <div class="tabsG" aria-label="Code de la jam : 4821"><span>code 4821</span><span>code 4821</span><span>code 4821</span><span>code 4821</span><span>code 4821</span><span>code 4821</span></div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= H ======================= -->
+<section class="dir dH" aria-labelledby="tH">
+  <div class="meta">
+    <div class="letter">Direction H</div>
+    <h2 id="tH">Rave</h2>
+    <p>Un flyer d'entrepôt : fond noir, lettres chromées, couleurs acides. La typographie bat au tempo du morceau, et la jam devient « le floor ».</p>
+    <ul>
+      <li>Le titre répété en pile, qui s'étire à chaque temps (124 BPM ici)</li>
+      <li>La bibliothèque présentée comme une affiche de festival : plus un artiste est écouté, plus il est gros</li>
+      <li>En jam, chaque prénom grossit avec ses votes</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Renouveau du graphisme acid, Spotify Wrapped 2024</dd><dt>Effort Compose</dt><dd>Moyen : animation calée sur le BPM, donc analyse du tempo nécessaire</dd></dl>
+    <div class="sw"><span style="background:#000"></span><span style="background:#C6FF00"></span><span style="background:#FF2E88"></span><span style="background:#6B2BFF"></span></div>
+    <div class="fonts">Anton, Syne</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span>Lune Basse</span><span class="bpm">124 BPM</span></div>
+      <div class="chk"></div>
+      <div class="stack an" aria-label="Minuit sur le quai">
+        <div class="o">Minuit</div><div class="c">Minuit</div><div class="p">Minuit</div><div class="c">Minuit</div><div class="o">Minuit</div>
+      </div>
+      <div class="sub">sur le quai <span>/ Quai Nord</span></div>
+      <div class="prog"><i></i></div>
+      <div class="ctrl">
+        <button class="sq" aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="pp"><svg class="ic"><use href="#i-pause"/></svg>Pause</button>
+        <button class="sq" aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="chk"></div>
+      <div class="lu an">
+        <small>Tes artistes, classés par écoutes</small>
+        <div style="font-size:50px;color:#C6FF00">Odette Moreau</div>
+        <div style="font-size:40px">Les Satellites</div>
+        <div style="font-size:36px;color:#FF2E88">Lune Basse</div>
+        <div style="font-size:30px">Kaelo</div>
+        <div style="font-size:24px;color:#bdbdbd">Maison Soleil</div>
+        <div style="font-size:18px;color:#bdbdbd">Vesper Club</div>
+      </div>
+      <div class="miniH"><div><b>Minuit sur le quai</b><br>Lune Basse</div><button aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button></div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span>Le floor, 4 personnes</span><span class="bpm">code K7Q2</span></div>
+      <div class="chk"></div>
+      <div class="floor an">
+        <div style="font-size:74px;color:#C6FF00">Inès <small>3 votes</small></div>
+        <div style="font-size:54px">Malik <small>2 votes</small></div>
+        <div style="font-size:40px;color:#FF2E88">Chloé <small>1 vote</small></div>
+        <div style="font-size:30px;color:#bdbdbd">Toi <small>hôte</small></div>
+      </div>
+      <div class="qH">
+        <h4>À suivre</h4>
+        <div class="it"><b>Radio Nacre</b><span>Inès</span></div>
+        <div class="it"><b>Néons</b><span>Malik</span></div>
+      </div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= I ======================= -->
+<section class="dir dI" aria-labelledby="tI">
+  <div class="meta">
+    <div class="letter">Direction I</div>
+    <h2 id="tI">Oscillo</h2>
+    <p>Un oscilloscope de laboratoire. On dessine le vrai signal : le canal gauche pilote l'axe X, le droit l'axe Y, en vert phosphore avec rémanence.</p>
+    <ul>
+      <li>La forme change avec chaque morceau ; un titre mono s'écrase en diagonale</li>
+      <li>Dans la bibliothèque, un spectrogramme remplace la pochette</li>
+      <li>En jam, la trace de chaque appareil est superposée : quand elles se confondent, la synchro est bonne. La latence devient visible.</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Oscilloscope Music de Jerobeam Fenderson, vectorscopes de studio</dd><dt>Effort Compose</dt><dd>Moyen à élevé : lecture du signal via TeeAudioProcessor, dessin Canvas avec rémanence</dd></dl>
+    <div class="sw"><span style="background:#050805"></span><span style="background:#33FF66"></span><span style="background:#0F5A28"></span><span style="background:#FFB000"></span></div>
+    <div class="fonts">IBM Plex Mono</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span>CH1 gauche, CH2 droite</span><span>Mode XY</span></div>
+      <canvas class="scope" width="496" height="496" role="img" aria-label="Vectorscope du morceau"></canvas>
+      <div class="ttl"><h3>Minuit sur le quai</h3><p>Lune Basse, Quai Nord</p></div>
+      <div class="rd"><div><b>+0,82</b><span>Corrélation</span></div><div><b>−1,2 dB</b><span>Crête</span></div><div><b>2:08</b><span>sur 5:37</span></div></div>
+      <div class="ctrl">
+        <button aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="on" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head">Bibliothèque<small>2 480 titres, triés par artiste</small></div>
+      <div class="rows">
+        <div class="ri"><canvas class="spec" width="64" height="36" data-seed="3"></canvas><div>Néons<small>Kaelo, 3:48</small></div></div>
+        <div class="ri"><canvas class="spec" width="64" height="36" data-seed="7"></canvas><div>Radio Nacre<small>Les Satellites, 4:02</small></div></div>
+        <div class="ri now"><canvas class="spec" width="64" height="36" data-seed="11"></canvas><div>Minuit sur le quai<small>Lune Basse, 5:37</small></div></div>
+        <div class="ri"><canvas class="spec" width="64" height="36" data-seed="17"></canvas><div>Côte Ouest<small>Maison Soleil, 6:15</small></div></div>
+        <div class="ri"><canvas class="spec" width="64" height="36" data-seed="23"></canvas><div>Pluie d'été<small>Odette Moreau, 3:29</small></div></div>
+        <div class="ri"><canvas class="spec" width="64" height="36" data-seed="29"></canvas><div>Après la fête<small>Vesper Club, 5:01</small></div></div>
+      </div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="top"><span>Jam, code K7Q2</span><span>4 traces</span></div>
+      <canvas class="sync" width="496" height="400" role="img" aria-label="Traces superposées des participants"></canvas>
+      <div class="leg">
+        <div><i style="background:#33FF66"></i>Toi<span>référence</span></div>
+        <div><i style="background:#FFB000"></i>Inès<span>8 ms</span></div>
+        <div><i style="background:#5CE1E6"></i>Malik<span>12 ms</span></div>
+      </div>
+      <div class="ok">Traces superposées, tout le monde est synchronisé</div>
+      <div class="qI"><div><span>Radio Nacre, Inès</span><span>+3</span></div><div><span>Néons, Malik</span><span>+2</span></div></div>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<!-- ======================= J ======================= -->
+<section class="dir dJ" aria-labelledby="tJ">
+  <div class="meta">
+    <div class="letter">Direction J</div>
+    <h2 id="tJ">Catalogue</h2>
+    <p>La bibliothèque comme les archives d'un label de jazz : sobre, beaucoup d'air, et chaque album porte un numéro de catalogue. On met en avant les informations du fichier, pas les effets.</p>
+    <ul>
+      <li>L'écran de lecture est un dos de pochette : format, position, année, nombre d'écoutes</li>
+      <li>Bibliothèque triable par année, label ou format</li>
+      <li>La jam tient une feuille de session, exportable en playlist</li>
+    </ul>
+    <dl><dt>Références</dt><dd>Pochettes du label ECM, Barbara Wojirsch</dd><dt>Effort Compose</dt><dd>Faible : typographie et mise en page, aucun effet coûteux</dd></dl>
+    <div class="sw"><span style="background:#FAFAF7"></span><span style="background:#111"></span><span style="background:#6B6B66"></span><span style="background:#5B6770"></span></div>
+    <div class="fonts">Geist, Geist Mono</div>
+  </div>
+  <div class="phones">
+    <figure><div class="phone"><div class="screen">
+      <div class="top gm"><span>LB 003</span><span>Face A, plage 3</span></div>
+      <div class="sleeve"><div class="cv cv-lune"></div><div>Lune Basse<br>Quai Nord<br>2024</div></div>
+      <div class="ttl"><h3>Minuit sur le quai</h3></div>
+      <dl class="spec">
+        <dt>Format</dt><dd class="gm">FLAC 24 bits, 96 kHz</dd>
+        <dt>Durée</dt><dd class="gm">5:37</dd>
+        <dt>Écoutes</dt><dd>41 fois depuis mars</dd>
+        <dt>Ajouté</dt><dd>12 janvier</dd>
+      </dl>
+      <div class="prog"><i></i></div>
+      <div class="tm gm"><span>2:08</span><span>5:37</span></div>
+      <div class="ctrl">
+        <button aria-label="Précédent"><svg class="ic"><use href="#i-prev"/></svg></button>
+        <button class="pp" aria-label="Pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+        <button aria-label="Suivant"><svg class="ic"><use href="#i-next"/></svg></button>
+      </div>
+    </div></div><figcaption>Lecture</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3>Catalogue</h3><p>214 albums, 2 480 titres</p></div>
+      <div class="sort"><span>Trier par</span><b>Année</b><span>Artiste</span><span>Format</span></div>
+      <div class="cat">
+        <div class="ce"><span class="gm">MS 011</span><span><b>Côte Ouest</b><small>Maison Soleil</small></span><span class="gm">2025</span></div>
+        <div class="ce now"><span class="gm">LB 003</span><span><b>Quai Nord</b><small>Lune Basse</small></span><span class="gm">2024</span></div>
+        <div class="ce"><span class="gm">KA 002</span><span><b>Néons</b><small>Kaelo</small></span><span class="gm">2023</span></div>
+        <div class="ce"><span class="gm">SA 007</span><span><b>Radio Nacre</b><small>Les Satellites</small></span><span class="gm">2021</span></div>
+        <div class="ce"><span class="gm">VC 001</span><span><b>Après la fête</b><small>Vesper Club</small></span><span class="gm">2019</span></div>
+        <div class="ce"><span class="gm">OM 004</span><span><b>Pluie d'été</b><small>Odette Moreau</small></span><span class="gm">1998</span></div>
+      </div>
+    </div></div><figcaption>Bibliothèque</figcaption></figure>
+
+    <figure><div class="phone"><div class="screen">
+      <div class="head"><h3>Feuille de session</h3><p>Jam du 28 septembre, 4 participants</p></div>
+      <div class="log">
+        <div class="le"><span class="gm">22:21</span><span>Pluie d'été<small>choisi par Chloé</small></span></div>
+        <div class="le"><span class="gm">22:25</span><span>Après la fête<small>choisi par Malik</small></span></div>
+        <div class="le now"><span class="gm">22:36</span><span>Minuit sur le quai<small>choisi par toi, en cours</small></span></div>
+        <div class="le"><span class="gm">22:41</span><span>Radio Nacre<small>proposé par Inès, 3 votes</small></span></div>
+        <div class="le"><span class="gm">22:45</span><span>Néons<small>proposé par Malik, 2 votes</small></span></div>
+      </div>
+      <button class="btn">Exporter la session en playlist</button>
+    </div></div><figcaption>Jam</figcaption></figure>
+  </div>
+</section>
+
+<section class="sources">
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://support.spotify.com/us/article/jam/">Spotify Jam, aide officielle</a></li>
+    <li><a href="https://newsroom.spotify.com/2026-01-07/listening-activity-request-to-jam-messages-updates/">Spotify, « Request to Jam » (2026)</a></li>
+    <li><a href="https://9to5mac.com/2024/03/28/ios-17-carplay-apple-music-shareplay/">Apple Music SharePlay dans CarPlay</a></li>
+    <li><a href="https://blog.lon.tv/2023/02/02/new-plexamp-features-guest-dj-and-nfc-tags/">Plexamp Guest DJ</a></li>
+    <li><a href="https://www.hypebot.com/hypebot/2024/08/turntable-returns-as-hangout.html">Turntable devient Hangout</a></li>
+    <li><a href="https://fonts.google.com/specimen/Doto">Police Doto (Google Fonts)</a></li>
+    <li><a href="https://techissuestoday.com/nothing-ndot-font-nothing-os-3-0/">Nothing OS et la police Ndot</a></li>
+    <li><a href="https://help.play.date/developer/designing-for-playdate/">Designing for Playdate</a></li>
+    <li><a href="https://studio-ity.com/riso/colors/">Couleurs d'encres Riso</a></li>
+    <li><a href="https://eyeondesign.aiga.org/acid-graphics-are-the-new-psychedelia-with-a-heady-dose-of-cynicism/">AIGA Eye on Design, graphisme acid</a></li>
+    <li><a href="https://www.itsnicethat.com/features/spotify-wrapped-2024-graphic-design-041224">It's Nice That, Spotify Wrapped 2024</a></li>
+    <li><a href="https://oscilloscopemusic.com/info/about/">Oscilloscope Music</a></li>
+    <li><a href="https://fontsinuse.com/tags/7946/ecm-records">Fonts In Use, ECM Records</a></li>
+    <li><a href="https://eyemagazine.com/feature/article/think-of-your-ears-as-eyes">Eye Magazine, le graphisme d'ECM</a></li>
+    <li><a href="https://design.google/library/expressive-material-design-google-research">Google Design, Material 3 Expressive</a></li>
+    <li><a href="https://developer.android.com/jetpack/androidx/releases/compose-material3">Versions de Compose Material 3</a></li>
+    <li><a href="https://9to5google.com/2025/12/20/youtube-music-2025-now-playing-redesign/">Refonte du lecteur YouTube Music</a></li>
+    <li><a href="https://piunikaweb.com/2026/05/06/tidal-ios-music-player-redesign-rolling-out/">Refonte du lecteur Tidal (2026)</a></li>
+    <li><a href="https://www.setproduct.com/blog/liquid-glass-vs-glassmorphism">Liquid Glass et glassmorphism</a></li>
+    <li><a href="https://developer.android.com/develop/ui/views/graphics/agsl/using-agsl">Shaders AGSL sur Android</a></li>
+    <li><a href="https://github.com/chrisbanes/haze">Haze, effets de verre pour Compose</a></li>
+    <li><a href="https://github.com/jordond/MaterialKolor">MaterialKolor, couleurs depuis une image</a></li>
+    <li><a href="https://github.com/theovilardo/PixelPlayer">PixelPlayer, lecteur local open source en Compose</a></li>
+    <li><a href="https://android-developers.googleblog.com/2026/08/media3-1-11-whats-new.html">Nouveautés de Media3 1.11</a></li>
+  </ul>
+</section>
+
+<script>
+(function(){
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Luminosité 0..1 de chaque pochette factice, en coordonnées u,v 0..1
+  function lum(name, u, v){
+    var d;
+    switch(name){
+      case 'lune': d = Math.hypot(u-.68, v-.32); return d < .17 ? .95 : d < .24 ? .55 : .08 + .3*(1-v);
+      case 'sat': d = Math.hypot(u-.5, v-.5); return d < .14 ? .05 : (((u+v)*4) % 1 < .5 ? .85 : .4);
+      case 'odette': d = Math.hypot(u-.5, v-.55); return d < .2 ? .2 : v < .55 ? .55 : .9;
+      case 'kaelo': return (Math.atan2(v-.5, u-.5)/(2*Math.PI) + .5);
+      case 'soleil': d = Math.hypot(u-.5, v-1); return d < .34 ? .25 : d < .5 ? .6 : .95;
+      case 'vesper': return u + v < 1 ? .08 : .55;
+    }
+    return .5;
+  }
+
+  // E : pochette en matrice de points
+  document.querySelectorAll('canvas.dots').forEach(function(c){
+    var g = c.getContext('2d'), n = 22, s = c.width / n;
+    g.fillStyle = '#000'; g.fillRect(0, 0, c.width, c.height);
+    for (var y = 0; y < n; y++) for (var x = 0; x < n; x++){
+      var l = lum(c.dataset.cover, (x+.5)/n, (y+.5)/n);
+      g.fillStyle = l > .8 ? '#fff' : '#8E8E93';
+      g.beginPath(); g.arc((x+.5)*s, (y+.5)*s, Math.max(1.2, l * s * .46), 0, 7); g.fill();
+    }
+  });
+  document.querySelectorAll('.dE .seek').forEach(function(el){
+    for (var i = 0; i < +el.dataset.n; i++){
+      var d = document.createElement('i');
+      if (i < +el.dataset.at) d.className = 'on'; else if (i == +el.dataset.at) d.className = 'now';
+      el.appendChild(d);
+    }
+  });
+
+  // F : tramage Bayer 1-bit
+  var bayer = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+  document.querySelectorAll('canvas.dith').forEach(function(c){
+    var g = c.getContext('2d'), w = c.width, h = c.height, img = g.createImageData(w, h);
+    var dark = c.closest('.sel') ? [177,175,168] : [49,47,40], light = c.closest('.sel') ? [49,47,40] : [177,175,168];
+    for (var y = 0; y < h; y++) for (var x = 0; x < w; x++){
+      var l = lum(c.dataset.cover, x/w, y/h), t = (bayer[(y%4)*4 + x%4] + .5) / 16;
+      var col = l > t ? light : dark, i = (y*w + x) * 4;
+      img.data[i] = col[0]; img.data[i+1] = col[1]; img.data[i+2] = col[2]; img.data[i+3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+  });
+  document.querySelectorAll('.dF .seg').forEach(function(el){
+    for (var i = 0; i < +el.dataset.n; i++){ var d = document.createElement('i'); if (i < +el.dataset.at) d.className = 'on'; el.appendChild(d); }
+  });
+  var sprites = [
+    ['..XXXXXXXX..','.X........X.','X..XX..XX..X','X..XX..XX..X','X..........X','X..X....X..X','X...XXXX...X','.X........X.','..XXXXXXXX..','....X..X....','...XX..XX...','............'],
+    ['.XXXXXXXXXX.','XXXXXXXXXXXX','X..........X','X..XX..XX..X','X..........X','X...XXXX...X','.X........X.','..XXXXXXXX..','XX..X..X..XX','....X..X....','...XX..XX...','............'],
+    ['....XXXX....','..XXXXXXXX..','.X........X.','X.XXX..XXX.X','X..........X','X....XX....X','X...X..X...X','.X........X.','..XXXXXXXX..','....X..X....','...XX..XX...','............'],
+    ['..X......X..','..XXXXXXXX..','.X........X.','X..X....X..X','X..........X','X..XXXXXX..X','X..........X','.X........X.','..XXXXXXXX..','....X..X....','...XX..XX...','............']
+  ];
+  document.querySelectorAll('canvas.sprite').forEach(function(c){
+    var g = c.getContext('2d'), s = sprites[+c.dataset.s];
+    g.fillStyle = '#312F28';
+    s.forEach(function(row, y){ for (var x = 0; x < row.length; x++) if (row[x] === 'X') g.fillRect(x, y, 1, 1); });
+  });
+
+  // I : spectrogrammes
+  document.querySelectorAll('canvas.spec').forEach(function(c){
+    var g = c.getContext('2d'), w = c.width, h = c.height, seed = +c.dataset.seed;
+    function rnd(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    for (var x = 0; x < w; x++){
+      var beat = (x % 8 < 2) ? .35 : 0, env = .5 + .5*Math.sin(x/w*Math.PI);
+      for (var y = 0; y < h; y++){
+        var f = 1 - y/h, e = Math.max(0, Math.min(1, env*(.25 + f*.7) + beat*f*f + rnd()*.25 - .15));
+        g.fillStyle = 'rgb(' + Math.round(e*60) + ',' + Math.round(e*255) + ',' + Math.round(e*100) + ')';
+        g.fillRect(x, y, 1, 1);
+      }
+    }
+  });
+
+  // I : vectorscope et traces de synchro
+  function graticule(g, w, h){
+    g.strokeStyle = 'rgba(51,255,102,.14)'; g.lineWidth = 1;
+    for (var i = 1; i < 8; i++){ g.beginPath(); g.moveTo(i*w/8, 0); g.lineTo(i*w/8, h); g.stroke(); g.beginPath(); g.moveTo(0, i*h/8); g.lineTo(w, i*h/8); g.stroke(); }
+  }
+  function lissa(t, ph){
+    return [Math.sin(2.01*t + ph) * .62 + Math.sin(6.03*t) * .18, Math.sin(3*t + .4 + ph) * .55 + Math.cos(5*t) * .15];
+  }
+  var scopes = [];
+  document.querySelectorAll('canvas.scope').forEach(function(c){ scopes.push({c:c, traces:[{col:'#33FF66', ph:0}], amp:.44}); });
+  document.querySelectorAll('canvas.sync').forEach(function(c){ scopes.push({c:c, traces:[{col:'#33FF66', ph:0},{col:'#FFB000', ph:.05},{col:'#5CE1E6', ph:.09}], amp:.36}); });
+  var T = 0;
+  function frame(){
+    scopes.forEach(function(s){
+      var g = s.c.getContext('2d'), w = s.c.width, h = s.c.height;
+      g.fillStyle = 'rgba(5,8,5,.22)'; g.fillRect(0, 0, w, h);
+      graticule(g, w, h);
+      s.traces.forEach(function(tr){
+        g.strokeStyle = tr.col; g.lineWidth = 2.2; g.shadowColor = tr.col; g.shadowBlur = 10;
+        g.beginPath();
+        for (var k = 0; k <= 160; k++){
+          var p = lissa(T + k*.02, tr.ph), x = w/2 + p[0]*w*s.amp*1.4, y = h/2 + p[1]*h*s.amp*1.4;
+          k ? g.lineTo(x, y) : g.moveTo(x, y);
+        }
+        g.stroke(); g.shadowBlur = 0;
+      });
+    });
+    T += .03;
+    if (!still) requestAnimationFrame(frame);
+  }
+  scopes.forEach(function(s){ var g = s.c.getContext('2d'); g.fillStyle = '#050805'; g.fillRect(0, 0, s.c.width, s.c.height); });
+  if (still){ for (var i = 0; i < 12; i++) frame(); } else frame();
+})();
+</script>
+</body>
+</html>

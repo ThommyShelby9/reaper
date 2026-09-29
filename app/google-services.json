@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "454862358791",
+    "project_id": "lecteur-c23sj",
+    "storage_bucket": "lecteur-c23sj.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454862358791:android:4daa808575e195c6581da2",
+        "android_client_info": {
+          "package_name": "com.lecteur.player"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454862358791-206r039ujlu5g6bebljpgl0pflctrvs6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lecteur.player",
+            "certificate_hash": "64232065d8d11af7fa7df6eacab7a0bc84f29b06"
+          }
+        },
+        {
+          "client_id": "454862358791-galh4t9cvfqi9f5jn6g6apdveui627ss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_FOSzPWEE3CCRy62GkNaF1v37WnUuHbA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454862358791-galh4t9cvfqi9f5jn6g6apdveui627ss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

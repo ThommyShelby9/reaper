@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Touche du widget : une tranche plus sombre dessous, la face s'y enfonce quand on appuie. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item><shape><solid android:color="#FFB3B2AB" /><corners android:radius="12dp" /></shape></item>
+            <item android:top="3dp"><shape><solid android:color="#FFF7F6F2" /><corners android:radius="12dp" /></shape></item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item><shape><solid android:color="#FFB3B2AB" /><corners android:radius="12dp" /></shape></item>
+            <item android:bottom="3dp"><shape><solid android:color="#FFF7F6F2" /><corners android:radius="12dp" /></shape></item>
+        </layer-list>
+    </item>
+</selector>

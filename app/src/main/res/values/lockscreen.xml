@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Écran de verrouillage : toujours noir, comme le thème « Nuit ». -->
+    <style name="Theme.Lecteur.LockScreen" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+</resources>
